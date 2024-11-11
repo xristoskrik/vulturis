@@ -1,0 +1,77 @@
+/*  GOOGLE FONTS */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Prata&display=swap');
+
+.prata-regular {
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  /*// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 200 to 800*/
+
+.plus-jakarta-sans-grammatoseira {
+  font-family: "Plus Jakarta Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing : border border-box;
+    text-decoration:none;
+    list-style:none;
+    font-weight:400;
+}
+
+:root{
+
+    --color-primary: #7a6930;
+    --color-black: #111111;
+    --color-black-Ex: #222222;
+    --color-dark: #42b0f5;
+    --color-dark-Ex: #327da8;
+    --color-light:#f0d7c9;
+
+    --color-bg-1:#f3f2ec;
+    --color-bg-2:#edebe4;
+
+
+
+
+
+
+}
+
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.federo-regular {
+  font-family: "Federo", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.h3-ex{
+  font-size: 26px !important;
+}
+
+h4{
+  font-size: 22px;
+  line-height: auto;
+  color: var(--color-black); 
+}
+
+h5{
+font-size:17px;
+color : var(--color-black);
+
+}
