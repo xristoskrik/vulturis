@@ -26,21 +26,23 @@ export default function Nav()
             <div className = "container nav-container">
                 {//logo : Not sure yet how i will include it here -> I named the class after the 
                 }
-            <Link  to={'/'} className = 'engraving-of-cinereous-vulture-vector-18919332'></Link>
-            <img   src={Logo} alt="Logo" />
+            <Link  to={'/'} className = 'engraving-of-cinereous-vulture-vector-18919332'>
+            <img   src={Logo} alt="Vulturis Bookstore Logo" />
+            </Link>
+           
 </div>
             {/*.............Nav links..............*/}
             <ul class name= "nav-links">
-                navLinks.map(({name, path},index) =&gt; {
-                    return(
+               { navLinks.map(({name, path},index) => (
+                    
                         <li key={index}>
                             <NavLink to={path}>{
                                 name}
                                 </NavLink>
                         </li>
-                    )
-                &rbrace;
-                )
+                    
+                             )) }
+                
                 
             </ul>
             {/*.............Nav links..............*/}
@@ -48,10 +50,10 @@ export default function Nav()
             
             navRight.managements.map(({icon,link},index)=>{
                 return(
-                    <Link key={item,index}  className='management-icons' to={item.link}>
+                    <Link key={ index}  className='management-icons' to={item.link}>
 
-
-                    <item.icon/>
+                    <Icon/>
+                    
                     </Link>
                 )
             })
