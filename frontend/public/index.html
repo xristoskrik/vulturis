@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulturis bookstore</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: link to a CSS file -->
+    <!-- Include React and ReactDOM from CDN -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+</head>
+<body>
+    <header id="header-root">
+        <h1>(replace with image)</h1>
+        <div id="root"></div>
+        <script src="index.js" type="module"></script>
+    </header>
+	
+    <main>
+        <div id="react-root"></div> 
+    </main>
+    <footer>
+        <p>&copy; 2024 Bookstore Website</p>
+    </footer>
+
+    <script>
+        // React Component Example
+        function App() {
+            return (
+                <div>
+                    <h2>Hello from React!</h2>
+                    <p>This content is rendered using React.</p>
+                </div>
+            );
+        }
+
+        // Render the React component into the react-root div
+        ReactDOM.render(<App />, document.getElementById('react-root'));
+    </script>
+</body>
+</html>
