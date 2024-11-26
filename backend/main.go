@@ -57,13 +57,12 @@ func main() {
 	//endpoints
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/users", apiCfg.UserCreateHandler)
-
 		r.Delete("/users", apiCfg.UserDeleteHandler)
-		//r.Post("/users/login", apiCfg.LoginUserHandler)
+		r.Put("/users", apiCfg.UserUpdateHandler)
+		r.Get("/users", apiCfg.UserGetHandler)
 		/*
-			r.Put("/users", apiCfg.UserUpdateHandler)
 			r.Post("/users/login", apiCfg.LoginUserHandler)
-			r.Get("/users/profile", apiCfg.UserProfileHandler)
+			r.Post("/users/login", apiCfg.LoginUserHandler)
 			r.Post("/users/logout", apiCfg.UserLogoutHandler)
 		*/
 

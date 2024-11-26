@@ -164,19 +164,19 @@ func (q *Queries) UpdateUserEmailById(ctx context.Context, arg UpdateUserEmailBy
 	return i, err
 }
 
-const updateUserPasswordById = `-- name: UpdateUserPasswordById :one
+const updateUserPasswordByEmail = `-- name: UpdateUserPasswordByEmail :one
 UPDATE users SET hashed_password = $1
-WHERE id = $2
+WHERE email = $2
 RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
 `
 
-type UpdateUserPasswordByIdParams struct {
+type UpdateUserPasswordByEmailParams struct {
 	HashedPassword string
-	ID             uuid.UUID
+	Email          string
 }
 
-func (q *Queries) UpdateUserPasswordById(ctx context.Context, arg UpdateUserPasswordByIdParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserPasswordById, arg.HashedPassword, arg.ID)
+func (q *Queries) UpdateUserPasswordByEmail(ctx context.Context, arg UpdateUserPasswordByEmailParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, updateUserPasswordByEmail, arg.HashedPassword, arg.Email)
 	var i User
 	err := row.Scan(
 		&i.ID,
