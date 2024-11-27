@@ -1,8 +1,48 @@
+
+.top-bar {
+  background-color: #6f4f1f; 
+  color: white;
+  text-align: right; 
+  padding: 10px 20px; 
+  font-size: 1rem;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+}
+
+.top-bar p {
+  margin: 0;
+}
+
+.top-bar ul {
+  list-style: none; 
+  padding: 0;
+  display: flex;
+  gap: 20px; 
+  margin: 0;
+}
+
+.top-bar li {
+  font-size: 1rem; 
+}
+
+.top-bar a {
+  color: white; 
+  text-decoration: none; 
+  font-size: 1rem; 
+  transition: color 0.3s ease;
+}
+
+.top-bar a:hover {
+  color: #00bcd4; 
+}
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #333; 
   color: white;
   padding: 10px 20px;
   position: sticky;
@@ -41,6 +81,7 @@
   outline: 2px solid #00bcd4;
   border-radius: 2px;
 }
+
 
 body {
   background-color: #353b6e;

@@ -10,14 +10,51 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [mobile, setMobile] = useState('');
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       console.log('Passwords do not match');
       return;
     }
+    const user = {
+      email,
+      password,
+      name,
+      surname,
+      phone,
+      address,
+      mobile,
+    };
 
+    fetch("http://localhost:8080/api/users", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setPhone(value);
+    }
+  };
+
+  const handleMobileChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setMobile(value);
+    }
   };
 
   return (
@@ -57,7 +94,7 @@ const Register = () => {
             required
           />
         </div>
-         <div className="form-group">
+        <div className="form-group">
           <label htmlFor="name" className="label">Name:</label>
           <input
             type="text"
@@ -68,7 +105,7 @@ const Register = () => {
             required
           />
         </div>
-            <div className="form-group">
+        <div className="form-group">
           <label htmlFor="surname" className="label">Surname:</label>
           <input
             type="text"
@@ -79,46 +116,45 @@ const Register = () => {
             required
           />
         </div>
-        
-          <div className="form-group">
-          <label htmlFor="surname" className="label">Phone:</label>
+
+        <div className="form-group">
+          <label htmlFor="phone" className="label">Phone:</label>
           <input
-            type="number"
-            id="Phone"
+            type="tel"
+            id="phone"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handlePhoneChange}
             className="input"
+            pattern="[0-9]*"
             required
           />
         </div>
-        
-          <div className="form-group">
-          <label htmlFor="Mobile" className="label">Mobile:</label>
+
+        <div className="form-group">
+          <label htmlFor="mobile" className="label">Mobile:</label>
           <input
-            type="number"
-            id="Mobile"
+            type="tel"
+            id="mobile"
             value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={handleMobileChange}
             className="input"
+            pattern="[0-9]*"
             required
           />
         </div>
-        
-        
-          <div className="form-group">
-          <label htmlFor="Address" className="label">Address:</label>
+
+        <div className="form-group">
+          <label htmlFor="address" className="label">Address:</label>
           <input
             type="text"
-            id="Address"
+            id="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className="input"
             required
           />
         </div>
-        
-        
-        
+
         <button type="submit" className="button">Register</button>
       </form>
     </div>
