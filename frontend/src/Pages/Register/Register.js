@@ -9,6 +9,7 @@ const Register = () => {
   const [surname, setSn] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [mobile, setMobile] = useState('');
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,9 +17,7 @@ const Register = () => {
       console.log('Passwords do not match');
       return;
     }
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Name:', name);
+
   };
 
   return (
@@ -92,6 +91,19 @@ const Register = () => {
             required
           />
         </div>
+        
+          <div className="form-group">
+          <label htmlFor="Mobile" className="label">Mobile:</label>
+          <input
+            type="Mobile"
+            id="Mobile"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            className="input"
+            required
+          />
+        </div>
+        
         
           <div className="form-group">
           <label htmlFor="Address" className="label">Address:</label>
