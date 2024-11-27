@@ -60,7 +60,7 @@ const Register = () => {
          <div className="form-group">
           <label htmlFor="name" className="label">Name:</label>
           <input
-            type="name"
+            type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -71,7 +71,7 @@ const Register = () => {
             <div className="form-group">
           <label htmlFor="surname" className="label">Surname:</label>
           <input
-            type="surname"
+            type="text"
             id="surname"
             value={surname}
             onChange={(e) => setSn(e.target.value)}
@@ -83,7 +83,7 @@ const Register = () => {
           <div className="form-group">
           <label htmlFor="surname" className="label">Phone:</label>
           <input
-            type="Phone"
+            type="number"
             id="Phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -95,7 +95,7 @@ const Register = () => {
           <div className="form-group">
           <label htmlFor="Mobile" className="label">Mobile:</label>
           <input
-            type="Mobile"
+            type="number"
             id="Mobile"
             value={mobile}
             onChange={(e) => setMobile(e.target.value)}
@@ -108,7 +108,7 @@ const Register = () => {
           <div className="form-group">
           <label htmlFor="Address" className="label">Address:</label>
           <input
-            type="Address"
+            type="text"
             id="Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
