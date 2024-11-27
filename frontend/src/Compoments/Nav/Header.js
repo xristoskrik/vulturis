@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <header className="navbar">
-      <h1 className="navbar-title">Welcome!</h1>
+      <h1 className="navbar-title"><img src="favicon.ico" alt=""       style={{ width: '250px', height: '100px' }} /></h1>
       <nav className="navbar-links">
         <ul>
           <li><Link to="/">Home</Link></li>
