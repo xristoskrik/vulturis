@@ -1,22 +1,42 @@
-FROM golang:1.23.1
+# Use the official Go image as the base
+FROM golang:1.23.0
 
 # Set the working directory inside the container
 WORKDIR /backend
 
-# Copy only go.mod and go.sum from the backend directory
-COPY backend/go.mod backend/go.sum ./
+# Copy go.mod and go.sum files for dependency management
+COPY backend/go.mod ./
+COPY backend/go.sum ./
 
-# Download dependencies
+# Download dependencies early for caching
 RUN go mod download
 
-# Copy the rest of the application code from the backend directory
+# Copy the rest of the application code
 COPY backend/ ./
 
 # Build the application
 RUN go build -o main .
 
-# Expose the application on port 8080
-EXPOSE 8080
+# Copy the migrations into the container
+COPY sql/schema /migrations
 
-# Run the application
-CMD ["./main"]
+# Install Goose
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+
+# Copy the start.sh script into the container
+COPY start.sh /start.sh
+
+# Ensure the start.sh script is executable
+RUN chmod +x /start.sh
+
+COPY backend/ ./
+
+# Build the application
+RUN go build -o main .
+
+# Set the start.sh script as the entrypoint
+ENTRYPOINT ["/start.sh"]
+
+
+# Expose the application port
+EXPOSE 8080
