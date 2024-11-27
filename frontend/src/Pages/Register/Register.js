@@ -10,13 +10,39 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [mobile, setMobile] = useState('');
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       console.log('Passwords do not match');
       return;
     }
+    const user = {
+      email,
+      password,
+      name,
+      surname,
+      phone,
+      address,
+      mobile,
+    };
+
+    fetch("http://localhost:8080/api/users", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        // You can redirect the user to another page or show a success message here
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle error (e.g., show an error message)
+      });
 
   };
 
@@ -57,7 +83,7 @@ const Register = () => {
             required
           />
         </div>
-         <div className="form-group">
+        <div className="form-group">
           <label htmlFor="name" className="label">Name:</label>
           <input
             type="text"
@@ -68,7 +94,7 @@ const Register = () => {
             required
           />
         </div>
-            <div className="form-group">
+        <div className="form-group">
           <label htmlFor="surname" className="label">Surname:</label>
           <input
             type="text"
@@ -79,8 +105,8 @@ const Register = () => {
             required
           />
         </div>
-        
-          <div className="form-group">
+
+        <div className="form-group">
           <label htmlFor="surname" className="label">Phone:</label>
           <input
             type="number"
@@ -91,8 +117,8 @@ const Register = () => {
             required
           />
         </div>
-        
-          <div className="form-group">
+
+        <div className="form-group">
           <label htmlFor="Mobile" className="label">Mobile:</label>
           <input
             type="number"
@@ -103,9 +129,9 @@ const Register = () => {
             required
           />
         </div>
-        
-        
-          <div className="form-group">
+
+
+        <div className="form-group">
           <label htmlFor="Address" className="label">Address:</label>
           <input
             type="text"
@@ -116,9 +142,9 @@ const Register = () => {
             required
           />
         </div>
-        
-        
-        
+
+
+
         <button type="submit" className="button">Register</button>
       </form>
     </div>
