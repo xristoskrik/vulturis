@@ -12,7 +12,7 @@ import (
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, email,hashed_password,name,surname,username)
+INSERT INTO users (id, created_at, updated_at, email,hashed_password,name,surname,phone,mobile,address)
 VALUES (
     gen_random_uuid (),
     CURRENT_TIMESTAMP,
@@ -21,9 +21,11 @@ VALUES (
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6,
+    $7
 )
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, username
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
 `
 
 type CreateUserParams struct {
@@ -31,7 +33,9 @@ type CreateUserParams struct {
 	HashedPassword string
 	Name           string
 	Surname        string
-	Username       string
+	Phone          string
+	Mobile         string
+	Address        string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -40,7 +44,9 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		arg.HashedPassword,
 		arg.Name,
 		arg.Surname,
-		arg.Username,
+		arg.Phone,
+		arg.Mobile,
+		arg.Address,
 	)
 	var i User
 	err := row.Scan(
@@ -51,9 +57,20 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.HashedPassword,
 		&i.Name,
 		&i.Surname,
-		&i.Username,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
 	)
 	return i, err
+}
+
+const deleteUserByEmail = `-- name: DeleteUserByEmail :exec
+delete from users WHERE email = $1
+`
+
+func (q *Queries) DeleteUserByEmail(ctx context.Context, email string) error {
+	_, err := q.db.ExecContext(ctx, deleteUserByEmail, email)
+	return err
 }
 
 const deleteUserById = `-- name: DeleteUserById :exec
@@ -75,7 +92,7 @@ func (q *Queries) DeleteUsers(ctx context.Context) error {
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, created_at, updated_at, email, hashed_password, name, surname, username FROM users WHERE $1 = users.email
+SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address FROM users WHERE $1 = users.email
 `
 
 func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
@@ -89,7 +106,31 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 		&i.HashedPassword,
 		&i.Name,
 		&i.Surname,
-		&i.Username,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
+	)
+	return i, err
+}
+
+const getUserById = `-- name: GetUserById :one
+SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address FROM users WHERE $1 = users.id
+`
+
+func (q *Queries) GetUserById(ctx context.Context, id uuid.UUID) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserById, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.HashedPassword,
+		&i.Name,
+		&i.Surname,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
 	)
 	return i, err
 }
@@ -97,7 +138,7 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 const updateUserEmailById = `-- name: UpdateUserEmailById :one
 UPDATE users SET email = $1
 WHERE id = $2
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, username
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
 `
 
 type UpdateUserEmailByIdParams struct {
@@ -116,24 +157,26 @@ func (q *Queries) UpdateUserEmailById(ctx context.Context, arg UpdateUserEmailBy
 		&i.HashedPassword,
 		&i.Name,
 		&i.Surname,
-		&i.Username,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
 	)
 	return i, err
 }
 
-const updateUserPasswordById = `-- name: UpdateUserPasswordById :one
+const updateUserPasswordByEmail = `-- name: UpdateUserPasswordByEmail :one
 UPDATE users SET hashed_password = $1
-WHERE id = $2
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, username
+WHERE email = $2
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
 `
 
-type UpdateUserPasswordByIdParams struct {
+type UpdateUserPasswordByEmailParams struct {
 	HashedPassword string
-	ID             uuid.UUID
+	Email          string
 }
 
-func (q *Queries) UpdateUserPasswordById(ctx context.Context, arg UpdateUserPasswordByIdParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserPasswordById, arg.HashedPassword, arg.ID)
+func (q *Queries) UpdateUserPasswordByEmail(ctx context.Context, arg UpdateUserPasswordByEmailParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, updateUserPasswordByEmail, arg.HashedPassword, arg.Email)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -143,7 +186,9 @@ func (q *Queries) UpdateUserPasswordById(ctx context.Context, arg UpdateUserPass
 		&i.HashedPassword,
 		&i.Name,
 		&i.Surname,
-		&i.Username,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
 	)
 	return i, err
 }

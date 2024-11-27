@@ -37,6 +37,7 @@ const Register = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
+
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -118,7 +119,9 @@ const Register = () => {
         </div>
 
         <div className="form-group">
+
           <label htmlFor="phone" className="label">Phone:</label>
+
           <input
             type="tel"
             id="phone"
@@ -131,7 +134,9 @@ const Register = () => {
         </div>
 
         <div className="form-group">
+
           <label htmlFor="mobile" className="label">Mobile:</label>
+
           <input
             type="tel"
             id="mobile"
@@ -143,8 +148,10 @@ const Register = () => {
           />
         </div>
 
+
         <div className="form-group">
           <label htmlFor="address" className="label">Address:</label>
+
           <input
             type="text"
             id="address"
@@ -154,7 +161,6 @@ const Register = () => {
             required
           />
         </div>
-
         <button type="submit" className="button">Register</button>
       </form>
     </div>

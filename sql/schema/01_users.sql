@@ -8,7 +8,9 @@ CREATE TABLE users(
         hashed_password TEXT NOT NULL,
         name TEXT NOT NULL,
         surname TEXT NOT NULL,
-        username  TEXT NOT NULL);
+        phone TEXT NOT NULL,
+        mobile TEXT NOT NULL,
+        address TEXT NOT NULL);
 
 -- +goose Down
 DROP TABLE users;
