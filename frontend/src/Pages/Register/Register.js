@@ -37,13 +37,25 @@ const Register = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
-        // You can redirect the user to another page or show a success message here
+
       })
       .catch((error) => {
         console.error('Error:', error);
-        // Handle error (e.g., show an error message)
       });
+  };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setPhone(value);
+    }
+  };
+
+  const handleMobileChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setMobile(value);
+    }
   };
 
   return (
@@ -107,44 +119,48 @@ const Register = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="surname" className="label">Phone:</label>
+
+          <label htmlFor="phone" className="label">Phone:</label>
+
           <input
-            type="number"
-            id="Phone"
+            type="tel"
+            id="phone"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handlePhoneChange}
             className="input"
+            pattern="[0-9]*"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Mobile" className="label">Mobile:</label>
+
+          <label htmlFor="mobile" className="label">Mobile:</label>
+
           <input
-            type="number"
-            id="Mobile"
+            type="tel"
+            id="mobile"
             value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={handleMobileChange}
             className="input"
+            pattern="[0-9]*"
             required
           />
         </div>
 
 
         <div className="form-group">
-          <label htmlFor="Address" className="label">Address:</label>
+          <label htmlFor="address" className="label">Address:</label>
+
           <input
             type="text"
-            id="Address"
+            id="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className="input"
             required
           />
         </div>
-
-
-
         <button type="submit" className="button">Register</button>
       </form>
     </div>
