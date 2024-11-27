@@ -12,8 +12,7 @@ import (
 )
 
 type ApiConfig struct {
-	DB        *database.Queries
-	SecretKey string
+	DB *database.Queries
 }
 
 func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) {

@@ -21,7 +21,6 @@ func main() {
 
 	//loading the secret key and database url
 	dbURL := os.Getenv("DB_URL")
-	secret := os.Getenv("SECRET_KEY")
 
 	//open postgres db
 	db, err := sql.Open("postgres", dbURL)
@@ -38,8 +37,7 @@ func main() {
 
 	//Initialize api config
 	apiCfg := ApiConfig{
-		DB:        dbQueries,
-		SecretKey: secret,
+		DB: dbQueries,
 	}
 
 	//router
