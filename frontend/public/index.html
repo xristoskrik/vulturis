@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vulturis bookstore</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Optional: link to a CSS file -->
-    <!-- Include React and ReactDOM from CDN -->
+    <link rel="stylesheet" href="styles.css"> 
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 </head>
 <body>
     <header id="header-root">
-        <h1>(replace with image)</h1>
+        <h1><img src="favicon.ico" alt=""></h1>
         <div id="root"></div>
         <script src="index.js" type="module"></script>
     </header>
@@ -24,17 +23,7 @@
     </footer>
 
     <script>
-        // React Component Example
-        function App() {
-            return (
-                <div>
-                    <h2>Hello from React!</h2>
-                    <p>This content is rendered using React.</p>
-                </div>
-            );
-        }
 
-        // Render the React component into the react-root div
         ReactDOM.render(<App />, document.getElementById('react-root'));
     </script>
 </body>

@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from './Header';
+import App from './App';
 
-const App = () => {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
-};
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
