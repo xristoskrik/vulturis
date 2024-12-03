@@ -58,6 +58,9 @@ func main() {
 		r.Delete("/users", apiCfg.UserDeleteHandler)
 		r.Put("/users", apiCfg.UserUpdateHandler)
 		r.Get("/users", apiCfg.UserGetHandler)
+		//r.Get("/orders",apiCfg)
+		r.Get("/products", apiCfg.ProductCreateHandler)
+
 		/*
 			r.Post("/users/login", apiCfg.LoginUserHandler)
 			r.Post("/users/login", apiCfg.LoginUserHandler)
