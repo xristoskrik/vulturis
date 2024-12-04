@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"net/http"
 
@@ -11,35 +12,45 @@ import (
 	"github.com/xristoskrik/vulturis/internal/database"
 )
 
-//type ApiConfig struct {
-//	DB *database.Queries
-//}
+//	type ApiConfig struct {
+//		DB *database.Queries
+//	}
+func deref(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}
 
 func (cfg *ApiConfig) ProductCreateHandler(w http.ResponseWriter, r *http.Request) {
-	//user struct
-	var create_product database.Product
-	//decoder
+	type parameters struct {
+		Name        string  `json:"name"`
+		Stock       int32   `json:"stock"`
+		Description *string `json:"description"`
+	}
 	decoder := json.NewDecoder(r.Body)
+	params := parameters{}
+	err := decoder.Decode(&params)
 
-	//decoding json
-	err := decoder.Decode(&create_product)
 	if err != nil {
 		RespondWithError(w, http.StatusBadRequest, "Invalid credentials", err)
 		return
 	}
 
 	//create user
-	/**/product, err := cfg.DB.CreateProduct(context.Background(), database.CreateProductParams{
-		Name:           create_product.Name,
-		Stock:          create_product.Stock,
-		Description:    create_product.Description,
+	/**/
+	product, err := cfg.DB.CreateProduct(context.Background(), database.CreateProductParams{
+		Name:  params.Name,
+		Stock: params.Stock,
+		Description: sql.NullString{
+			String: deref(params.Description),
+			Valid:  params.Description != nil,
+		},
 	})
 	if err != nil {
 		RespondWithError(w, http.StatusConflict, "Product already exists", err)
 		return
 	}
-
-	RespondWithError(w, http.StatusConflict, "test", err)
 
 	//respond with created user
 	RespondWithJSON(w, 201, ("created Product " + product.Name))

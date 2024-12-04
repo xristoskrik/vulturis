@@ -59,7 +59,7 @@ func main() {
 		r.Put("/users", apiCfg.UserUpdateHandler)
 		r.Get("/users", apiCfg.UserGetHandler)
 		//r.Get("/orders",apiCfg)
-		r.Get("/products", apiCfg.ProductCreateHandler)
+		r.Post("/products", apiCfg.ProductCreateHandler)
 
 		/*
 			r.Post("/users/login", apiCfg.LoginUserHandler)
