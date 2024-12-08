@@ -1,11 +1,12 @@
-const ErosTheBittersweetImage = require('../assets/images/ErosTheBittersweet.jfif');
-const Zwgr = require('../assets/images/IstoriesZwgrafikhs.jpg');
-const Fiamma = require('../assets/images/La-misteriosa-fiamma-della-Regina-Loana.jpg');
-const Yokai = require('../assets/images/SevenJapaneseTales.jpeg');
-const Asia = require('../assets/images/SouthEastAsiaAnarchy.jpg');
-const Island = require('../assets/images/TheIslandOfTheDayBefore.jpg');
-const Land = require('../assets/images/LegendaryLands.jpg');
-const Beauty = require('../assets/images/OnBeauty.jpg');
+import ErosTheBittersweetImage from './images/ErosTheBittersweet.jfif';  // Relative path from products.js
+import Zwgr from './images/IstoriesZwgrafikhs.jpg';  // Correct path
+import Fiamma from './images/La-misteriosa-fiamma-della-Regina-Loana.jpg';  // Correct path
+import Yokai from './images/SevenJapaneseTales.jpeg';  // Correct path
+import Asia from './images/SouthEastAsiaAnarchy.jpg';  // Correct path
+import Island from './images/TheIslandOfTheDayBefore.jpg';  // Correct path
+import Land from './images/LegendaryLands.jpg';  // Correct path
+import Beauty from './images/OnBeauty.jpg';  // Correct path
+
 
 export const products = [
 {

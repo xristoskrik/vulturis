@@ -1,21 +1,23 @@
 import React from 'react';
+import ProductCart from './ProductCart';
+import {products } from './products.js';
 
-import {products } from './products';
-
-function Home(){
+const Home = ()=>{
 
     return(
         //creating a bootstrap class
-        <div className = "container">
-            <div className="card mt-4">
-                <div className="card-body">
-                    <h1 className  = 'text-3xl my-5'>List Products</h1>
-                    <h2>
-                        Home Page 
-                    </h2>
-                </div>
+        <div>
+            <h1 className  = 'text-3xl my-5'>List Products</h1>
+                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5'>
+                {products.map((product,key)=>
+                <ProductCart key={key} data={product}/>
+                
+                )}
             </div>
+                
         </div>
+            
+       
     );
 }
 

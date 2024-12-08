@@ -34,4 +34,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'], // Resolves imports without needing extensions
   },
+  setupMiddlewares: (middlewares, devServer) => {
+    // custom middleware setup
+    return middlewares;
+  }
+  
 };
