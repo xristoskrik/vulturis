@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './nav.css';
 import { Link } from 'react-router-dom';
 
@@ -7,10 +7,10 @@ const Header = () => {
     <>
       <div className="top-bar">
         <ul>
-            <li><Link to="/login">Login</Link></li>
-	    <p>|</p>
-             <li><Link to="/register">Register</Link></li>	
-          </ul>
+          <li><Link to="/login">Login</Link></li>
+          <p>|</p>
+          <li><Link to="/register">Register</Link></li>
+        </ul>
       </div>
 
       <header className="navbar">

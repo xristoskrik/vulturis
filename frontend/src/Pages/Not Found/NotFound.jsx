@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const NotFound = () => {
   return (
@@ -17,5 +17,5 @@ const styles = {
     color: '#333',
     height: '100vh',
   },
- 
+}
 
