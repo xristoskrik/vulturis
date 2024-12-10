@@ -1,0 +1,89 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: vulturis
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set working directory to backend
+        run: cd backend
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23.0'
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 1
+          done
+
+      - name: Set DB_URL environment variable
+        run: echo "DB_URL=postgres://postgres:password@localhost:5432/vulturis?sslmode=disable" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: go mod tidy
+        working-directory: backend  
+
+      - name: Install Goose
+        run: go install github.com/pressly/goose/v3/cmd/goose@latest
+        working-directory: backend 
+
+      - name: Run Goose Migrations
+        env:
+          DB_URL: ${{ env.DB_URL }} 
+        run: goose -dir ./sql/schema postgres $DB_URL up
+
+      - name: Verify Tables
+        env:
+          PGPASSWORD: password
+        run: |
+          echo "Listing all tables in the database..."
+          psql -h localhost -p 5432 -U postgres -d vulturis -c "\dt"
+        working-directory: backend 
+
+      - name: Build
+        run: go build -o out
+        working-directory: backend  
+
+      - name: Run Server in the background
+        run: ./out &
+        working-directory: backend  
+
+      - name: Wait for the server to start
+        run: sleep 5
+
+      - name: Test API
+        run: |
+          curl -X GET http://localhost:8080/api/users
+        working-directory: backend  
+
+      - name: Run Tests
+        env:
+          DB_URL: ${{ env.DB_URL }} 
+        run: go test -v ./...
+        working-directory: backend  

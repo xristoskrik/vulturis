@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: vulturis
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_URL: postgres://root:12345678@postgres:5432/vulturis?sslmode=disable
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

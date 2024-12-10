@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulturis Bookstore</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+    <header id="header-root" style="flex: 0;">
+        <div id="root"></div>
+        <script src="index.js" type="module"></script>
+    </header>
+    
+    <main style="flex: 1;">
+        <div id="react-root"></div>
+    </main>
+    
+    <footer class="footer" style="flex: 0;">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Professional bookstore since 1821</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: bookstore@uniwa.gr</p>
+                <p>Phone: +210xxxxxxx</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+    <a href="#" class="icon">
+        <img src="facebook-icon.png" alt="Facebook" style="width: 24px; height: 24px;">
+    </a>
+    <a href="#" class="icon">
+        <img src="twitter-icon.png" alt="Twitter" style="width: 24px; height: 24px;">
+    </a>
+    <a href="#" class="icon">
+        <img src="instagram-icon.png" alt="Instagram" style="width: 24px; height: 24px;">
+    </a>
+</div>
+
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; Bookstore Company.</p>
+        </div>
+    </footer>
+    
+    <script>
+        ReactDOM.render(<App />, document.getElementById('react-root'));
+    </script>
+</body>
+</html>
+

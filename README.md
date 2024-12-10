@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+ HEAD
+ HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -69,6 +70,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
+
 # ReactBootstrapTest
 >>>>>>> 08e550b5e0b1f5c3a36840676911c63040dfda3b
+
+# Vulturis
+[![Go](https://github.com/xristoskrik/vulturis/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/xristoskrik/vulturis/actions/workflows/go.yml)
+A book eshop project made for the course 'Special Topics In Software Engineering' of University Of West Attica,department of Informatics and Computer Enginnering
+*Still early in development*
+ c3546445c1517d968270ee69527bc97fbe1d4359
