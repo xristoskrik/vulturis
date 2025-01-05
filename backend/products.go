@@ -59,7 +59,7 @@ func (cfg *ApiConfig) ProductCreateHandler(w http.ResponseWriter, r *http.Reques
 func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) {
 	//needs id for parameters
 	type parameters struct {
-		Code int32 `json:"code"`
+		Code int32  `json:"code"`
 		Name string `json:"name"`
 	}
 
@@ -73,7 +73,6 @@ func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-
 	if action == "code" {
 		product, err := cfg.DB.GetUserByCode(context.Background(), params.Code)
 		if err != nil {
@@ -81,7 +80,7 @@ func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) 
 			return
 		}
 		RespondWithJSON(w, http.StatusOK, product)
-	}else if action == "name" {
+	} else if action == "name" {
 		product, err := cfg.DB.GetProduct(context.Background(), params.Name)
 		if err != nil {
 			RespondWithError(w, http.StatusInternalServerError, "Cant find product", err)
@@ -90,12 +89,10 @@ func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) 
 		RespondWithJSON(w, http.StatusOK, product)
 	}
 
-
 }
 
-
 /*
- - - name: UpdateProduct :ex*ec
+ - - name: UpdateProduct :exec
  UPDATE products
  SET name = $1, stock = $2,description = $3
  WHERE product_code = $4;
@@ -113,10 +110,10 @@ func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) 
 func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	//needs email and password or id and email for parameters
 	type parameters struct {
-		Code        int32          `json:"code"`
-		Name        string         `json:"name"`
-		Stock       int32          `json:"stock"`
-		Description sql.NullString `json:"description"`
+		Code        int32   `json:"code"`
+		Name        string  `json:"name"`
+		Stock       int32   `json:"stock"`
+		Description *string `json:"description"`
 	}
 	action := r.URL.Query().Get("action")
 	decoder := json.NewDecoder(r.Body)
@@ -129,8 +126,8 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 
 	if action == "stock" {
 		_, err = cfg.DB.UpdateProductStock(context.Background(), database.UpdateProductStockParams{
-			ProductCode:    params.Code,
-			Stock:          params.Stock,
+			ProductCode: params.Code,
+			Stock:       params.Stock,
 		})
 		if err != nil {
 			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
@@ -138,10 +135,10 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 		}
 		RespondWithJSON(w, http.StatusAccepted, "Stock updated")
 		return
-	}else if action == "name" {
+	} else if action == "name" {
 		_, err = cfg.DB.UpdateProductName(context.Background(), database.UpdateProductNameParams{
-			ProductCode:    params.Code,
-			Name:           params.Name,
+			ProductCode: params.Code,
+			Name:        params.Name,
 		})
 		if err != nil {
 			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
@@ -149,10 +146,13 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 		}
 		RespondWithJSON(w, http.StatusAccepted, "Name updated")
 		return
-	}else if action == "description" {
+	} else if action == "description" {
 		_, err = cfg.DB.UpdateProductDescription(context.Background(), database.UpdateProductDescriptionParams{
-			ProductCode:    params.Code,
-			Description:    params.Description,
+			ProductCode: params.Code,
+			Description: sql.NullString{
+				String: deref(params.Description),
+				Valid:  params.Description != nil,
+			},
 		})
 		if err != nil {
 			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
@@ -160,12 +160,15 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 		}
 		RespondWithJSON(w, http.StatusAccepted, "Description updated")
 		return
-	}else{
+	} else {
 		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
-			ProductCode:    params.Code,
-			Name:           params.Name,
-			Stock:          params.Stock,
-			Description:    params.Description,
+			ProductCode: params.Code,
+			Name:        params.Name,
+			Stock:       params.Stock,
+			Description: sql.NullString{
+				String: deref(params.Description),
+				Valid:  params.Description != nil,
+			},
 		})
 		if err != nil {
 			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
@@ -174,7 +177,6 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 		RespondWithJSON(w, http.StatusAccepted, "Product updated")
 	}
 }
-
 
 func (cfg *ApiConfig) ProductDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	//needs email for parameters
@@ -196,4 +198,3 @@ func (cfg *ApiConfig) ProductDeleteHandler(w http.ResponseWriter, r *http.Reques
 
 	RespondWithJSON(w, http.StatusNoContent, "Successfully deleted product")
 }
-
