@@ -1,0 +1,15 @@
+INSERT INTO orders (order_code, created_at, updated_at ,user_uuid)
+VALUES (
+    gen_random_uuid (),
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP,
+    'ac563a2d-2ebf-438a-9f55-7283248cb541'
+)
+
+
+
+select * from commit_order('ac563a2d-2ebf-438a-9f55-7283248cb541', '5fdfcb44-3d0a-46bc-bcd8-8396a108b688');
+
+
+
+ac563a2d-2ebf-438a-9f55-7283248cb541

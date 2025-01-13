@@ -11,28 +11,36 @@ import (
 )
 
 const createProduct = `-- name: CreateProduct :one
-INSERT INTO products (name, stock, description)
+INSERT INTO products (name, stock, price, description)
 VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 )
-RETURNING product_code, name, stock, description
+RETURNING product_code, name, stock, price, description
 `
 
 type CreateProductParams struct {
 	Name        string
 	Stock       int32
+	Price       float32
 	Description sql.NullString
 }
 
 func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, createProduct, arg.Name, arg.Stock, arg.Description)
+	row := q.db.QueryRowContext(ctx, createProduct,
+		arg.Name,
+		arg.Stock,
+		arg.Price,
+		arg.Description,
+	)
 	var i Product
 	err := row.Scan(
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
@@ -57,7 +65,7 @@ func (q *Queries) DeleteProducts(ctx context.Context) error {
 }
 
 const getProduct = `-- name: GetProduct :one
-SELECT product_code, name, stock, description FROM products WHERE $1 = products.name
+SELECT product_code, name, stock, price, description FROM products WHERE $1 = products.name
 `
 
 func (q *Queries) GetProduct(ctx context.Context, name string) (Product, error) {
@@ -67,13 +75,14 @@ func (q *Queries) GetProduct(ctx context.Context, name string) (Product, error) 
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
 }
 
 const getUserByCode = `-- name: GetUserByCode :one
-SELECT product_code, name, stock, description FROM products WHERE $1 = products.product_code
+SELECT product_code, name, stock, price, description FROM products WHERE $1 = products.product_code
 `
 
 func (q *Queries) GetUserByCode(ctx context.Context, productCode int32) (Product, error) {
@@ -83,6 +92,7 @@ func (q *Queries) GetUserByCode(ctx context.Context, productCode int32) (Product
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
@@ -90,14 +100,15 @@ func (q *Queries) GetUserByCode(ctx context.Context, productCode int32) (Product
 
 const updateProduct = `-- name: UpdateProduct :one
 UPDATE products
-SET name = $1, stock = $2,description = $3
-WHERE product_code = $4
-RETURNING product_code, name, stock, description
+SET name = $1, stock = $2, price = $3, description = $4
+WHERE product_code = $5
+RETURNING product_code, name, stock, price, description
 `
 
 type UpdateProductParams struct {
 	Name        string
 	Stock       int32
+	Price       float32
 	Description sql.NullString
 	ProductCode int32
 }
@@ -106,6 +117,7 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 	row := q.db.QueryRowContext(ctx, updateProduct,
 		arg.Name,
 		arg.Stock,
+		arg.Price,
 		arg.Description,
 		arg.ProductCode,
 	)
@@ -114,6 +126,7 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
@@ -122,7 +135,7 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 const updateProductDescription = `-- name: UpdateProductDescription :one
 UPDATE products SET description = $1
 WHERE product_code = $2
-RETURNING product_code, name, stock, description
+RETURNING product_code, name, stock, price, description
 `
 
 type UpdateProductDescriptionParams struct {
@@ -137,6 +150,7 @@ func (q *Queries) UpdateProductDescription(ctx context.Context, arg UpdateProduc
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
@@ -145,7 +159,7 @@ func (q *Queries) UpdateProductDescription(ctx context.Context, arg UpdateProduc
 const updateProductName = `-- name: UpdateProductName :one
 UPDATE products SET name = $1
 WHERE product_code = $2
-RETURNING product_code, name, stock, description
+RETURNING product_code, name, stock, price, description
 `
 
 type UpdateProductNameParams struct {
@@ -160,6 +174,31 @@ func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNamePa
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
+		&i.Description,
+	)
+	return i, err
+}
+
+const updateProductPrice = `-- name: UpdateProductPrice :one
+UPDATE products SET price = $1
+WHERE product_code = $2
+RETURNING product_code, name, stock, price, description
+`
+
+type UpdateProductPriceParams struct {
+	Price       float32
+	ProductCode int32
+}
+
+func (q *Queries) UpdateProductPrice(ctx context.Context, arg UpdateProductPriceParams) (Product, error) {
+	row := q.db.QueryRowContext(ctx, updateProductPrice, arg.Price, arg.ProductCode)
+	var i Product
+	err := row.Scan(
+		&i.ProductCode,
+		&i.Name,
+		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err
@@ -168,7 +207,7 @@ func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNamePa
 const updateProductStock = `-- name: UpdateProductStock :one
 UPDATE products SET stock = $1
 WHERE product_code = $2
-RETURNING product_code, name, stock, description
+RETURNING product_code, name, stock, price, description
 `
 
 type UpdateProductStockParams struct {
@@ -183,6 +222,7 @@ func (q *Queries) UpdateProductStock(ctx context.Context, arg UpdateProductStock
 		&i.ProductCode,
 		&i.Name,
 		&i.Stock,
+		&i.Price,
 		&i.Description,
 	)
 	return i, err

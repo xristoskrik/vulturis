@@ -11,6 +11,13 @@ import (
 	"github.com/google/uuid"
 )
 
+type Cart struct {
+	ID          int32
+	UserUuid    uuid.UUID
+	ProductCode int32
+	Amount      int32
+}
+
 type Order struct {
 	OrderCode      uuid.UUID
 	CreatedAt      time.Time
@@ -19,10 +26,19 @@ type Order struct {
 	CompleteStatus string
 }
 
+type OrderedProduct struct {
+	ID          int32
+	OrderCode   uuid.UUID
+	UserUuid    uuid.UUID
+	ProductCode int32
+	Amount      int32
+}
+
 type Product struct {
 	ProductCode int32
 	Name        string
 	Stock       int32
+	Price       float32
 	Description sql.NullString
 }
 

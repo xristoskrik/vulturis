@@ -11,9 +11,9 @@ import (
 	"github.com/xristoskrik/vulturis/internal/database"
 )
 
-type ApiConfig struct {
-	DB *database.Queries
-}
+//type ApiConfig struct {
+//	DB *database.Queries
+//}
 
 func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) {
 	//user struct

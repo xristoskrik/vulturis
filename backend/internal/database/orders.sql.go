@@ -11,25 +11,38 @@ import (
 	"github.com/google/uuid"
 )
 
+const commitOrder = `-- name: CommitOrder :one
+select  from commit_order($1::UUID, $2::UUID)
+`
+
+type CommitOrderParams struct {
+	Column1 uuid.UUID
+	Column2 uuid.UUID
+}
+
+type CommitOrderRow struct {
+}
+
+func (q *Queries) CommitOrder(ctx context.Context, arg CommitOrderParams) (CommitOrderRow, error) {
+	row := q.db.QueryRowContext(ctx, commitOrder, arg.Column1, arg.Column2)
+	var i CommitOrderRow
+	err := row.Scan()
+	return i, err
+}
+
 const createOrder = `-- name: CreateOrder :one
-INSERT INTO orders (order_code, created_at, updated_at ,user_uuid ,complete_status)
+INSERT INTO orders (order_code, created_at, updated_at ,user_uuid)
 VALUES (
     gen_random_uuid (),
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP,
-    $1,
-    $2
+    $1
 )
 RETURNING order_code, created_at, updated_at, user_uuid, complete_status
 `
 
-type CreateOrderParams struct {
-	UserUuid       uuid.UUID
-	CompleteStatus string
-}
-
-func (q *Queries) CreateOrder(ctx context.Context, arg CreateOrderParams) (Order, error) {
-	row := q.db.QueryRowContext(ctx, createOrder, arg.UserUuid, arg.CompleteStatus)
+func (q *Queries) CreateOrder(ctx context.Context, userUuid uuid.UUID) (Order, error) {
+	row := q.db.QueryRowContext(ctx, createOrder, userUuid)
 	var i Order
 	err := row.Scan(
 		&i.OrderCode,

@@ -13,6 +13,15 @@ import (
 	"github.com/xristoskrik/vulturis/internal/database"
 )
 
+type ApiConfig struct {
+	DB     *database.Queries
+	MAIN   *sql.DB
+}
+
+//type ApiConfigForTransact struct {
+//	DB *sql.DB
+//}
+
 func main() {
 
 	const port = ":8080"
@@ -37,8 +46,14 @@ func main() {
 
 	//Initialize api config
 	apiCfg := ApiConfig{
-		DB: dbQueries,
+		MAIN: db,
+		DB:   dbQueries,
+
 	}
+
+	//apiCfgForTrancact := ApiConfigForTransact{
+	//	DB: db,
+	//}
 
 	//router
 	r := chi.NewRouter()
@@ -60,11 +75,17 @@ func main() {
 		r.Get("/users", apiCfg.UserGetHandler)
 
 		r.Get("/orders", apiCfg.OrdersGetHandler)
+		r.Get("/orders", apiCfg.OrderCommitingHandler)
 
 		r.Post("/products", apiCfg.ProductCreateHandler)
-		r.Get("/products", apiCfg.ProductGetHandler)
+                r.Get("/products", apiCfg.ProductGetHandler)
 		r.Put("/products", apiCfg.ProductUpdateHandler)
 		r.Delete("/products", apiCfg.ProductDeleteHandler)
+
+
+
+
+
 
 		/*
 			r.Post("/users/login", apiCfg.LoginUserHandler)
