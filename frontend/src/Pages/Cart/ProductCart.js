@@ -1,31 +1,37 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { prod } from './products';
+import './cart.css';
 
 const ProductCart = (props) => {
-  const divStyle = {
-    backgroundColor: '#00C0C0', // Ocean blue
-    color: 'white',
-    padding: '20px', // Optional: add some padding for better visual
-  };
   const { id, name, price, image, slug } = props.data;
+
+  // State to manage cart items
+  const [cart, setCart] = useState([]);
+
+  // Add to Cart Handler
+  const addToCart = () => {
+    const product = { id, name, price, image, slug };
+    setCart((prevCart) => [...prevCart, product]); // Add product to the cart
+    alert(`${name} has been added to the cart!`);
+  };
+
   return (
-    <div style={divStyle} className=' p-5 rounded-xl shadow-sm'>
-      <Link to={slug}>
-        <img src={image} alt='' className='w-full h-80 object-cover object-top drop-shadow-[0_10px_5px_#007]'></img>
+    <div className="cart-container">
+      <Link to={`/product/${slug}`}>
+        <img src={image} alt={name} className="cart-image" />
       </Link>
-      <h3 className='text-2xl py-3 text-center font-medium'>{name} </h3>
-      <div className='flex justify-between items-center'>
-        <p>
-          $<span className='text-2xl font-medium'>{price}</span>
+      <h3 className="cart-title">{name}</h3>
+      <div className="cart-footer">
+        <p className="cart-price">
+          $<span>{price}</span>
         </p>
-        <button className='bg-blue-300 p-2 rounded-md text-sm hover:bg-blue-400'>Add to Cart</button>
-
+        <button className="cart-button" onClick={addToCart}>
+          Add to Cart
+        </button>
       </div>
-
     </div>
   );
-}
+};
 
 export default ProductCart;
+

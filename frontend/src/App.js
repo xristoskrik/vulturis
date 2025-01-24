@@ -6,12 +6,12 @@ import Register from './Pages/Register/Register.js';
 import Checkout from './Pages/Checkout/Checkout.js';
 import Contact from './Pages/Contact/Contact.js';
 import Home from './Pages/Home/Home.jsx';
-
+import Cart from './Pages/Cart/Cart.js'
 
 
 const About = () => <h2>About Us</h2>;
 const Genres = () => <h2>Explore Genres</h2>;
-const Cart = () => <h2>Your Cart</h2>;
+//const Cart = () => <h2>Your Cart</h2>;
 
 // will replace with pages later
 
