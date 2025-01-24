@@ -1,30 +1,24 @@
-import React, { useState } from 'react';
-import './Home.css';  // Import the Home.css file
+import React from 'react';
+import { products } from './products';
+import './Home.css';
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    alert(`Searching for: ${searchQuery}`);
-  };
+  const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 4);
 
   return (
     <div className="home-container">
       <h2>Welcome to our book store!</h2>
-      <form onSubmit={handleSearchSubmit} className="search-bar">
-        <input
-          type="text"
-          placeholder="Search books..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button type="submit">Search</button>
-      </form>
+      <p>Check out some of our books!</p>
+      <div className="random-products-grid">
+        {randomProducts.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3>{product.name}</h3>
+            <p>{product.description}</p>
+            <p><strong>${product.price}</strong></p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
