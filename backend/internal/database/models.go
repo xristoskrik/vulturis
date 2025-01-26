@@ -11,6 +11,21 @@ import (
 	"github.com/google/uuid"
 )
 
+type Order struct {
+	OrderCode      uuid.UUID
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	UserUuid       uuid.UUID
+	CompleteStatus string
+}
+
+type Product struct {
+	ProductCode int32
+	Name        string
+	Stock       int32
+	Description sql.NullString
+}
+
 type RefreshToken struct {
 	Token     string
 	CreatedAt time.Time

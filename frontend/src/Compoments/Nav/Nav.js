@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+
 import './nav.css';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +10,7 @@ const Header = () => {
   return (
     <>
       <div className="top-bar">
+
         {!isLoggedIn ? (
           <ul>
             <li><Link to="/login">Login</Link></li>
@@ -17,6 +20,7 @@ const Header = () => {
         ) : (
           <p>You're logged in</p>
         )}
+
       </div>
 
       <header className="navbar">

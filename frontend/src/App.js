@@ -11,7 +11,7 @@ import Cart from './Pages/Cart/Cart.js'
 
 const About = () => <h2>About Us</h2>;
 const Genres = () => <h2>Explore Genres</h2>;
-//const Cart = () => <h2>Your Cart</h2>;
+
 
 // will replace with pages later
 
@@ -24,9 +24,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/genres" element={<Genres />} />
-          <Route path="/contact" element={<Contact/>} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-	  <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
