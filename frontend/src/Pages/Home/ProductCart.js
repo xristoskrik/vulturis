@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './cart.css';
@@ -35,5 +34,4 @@ const ProductCart = (props) => {
 };
 
 export default ProductCart;
-
 
