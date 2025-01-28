@@ -1,16 +1,15 @@
-
-import React, { useState } from 'react';
-
-import './nav.css';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../src/AuthContext';
+import './nav.css';
 
-const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a state to track login status
+const Nav = () => {
+  const { isLoggedIn, user, logout } = useAuth(); // Access login state and logout function
 
   return (
     <>
+      {/* Top Bar */}
       <div className="top-bar">
-
         {!isLoggedIn ? (
           <ul>
             <li><Link to="/login">Login</Link></li>
@@ -18,11 +17,14 @@ const Header = () => {
             <li><Link to="/register">Register</Link></li>
           </ul>
         ) : (
-          <p>You're logged in</p>
-        )}
+          <div className="top-bar-user">
+            <p>Welcome, {user} <button onClick={logout} className="logout-button">Logout</button></p>
 
+          </div>
+        )}
       </div>
 
+      {/* Navbar */}
       <header className="navbar">
         <h1 className="navbar-title">
           <img src="image2.png" alt="Logo" style={{ width: '100px', height: '100px' }} />
@@ -40,5 +42,5 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Nav;
 
