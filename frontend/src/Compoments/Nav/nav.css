@@ -1,4 +1,4 @@
-
+/* Top Bar */
 .top-bar {
   background-color: #6f4f1f; 
   color: white;
@@ -12,6 +12,7 @@
 
 .top-bar p {
   margin: 0;
+  font-size: 1rem;
 }
 
 .top-bar ul {
@@ -37,7 +38,32 @@
   color: #00bcd4; 
 }
 
+/* Fancy Logout Button */
+.logout-button {
+  background-color: #ff5722; /* Bright orange */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+}
 
+.logout-button:hover {
+  background-color: #e64a19; /* Slightly darker orange */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:focus {
+  outline: 2px solid #e64a19;
+  box-shadow: 0 0 5px #e64a19;
+}
+
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -82,7 +108,7 @@
   border-radius: 2px;
 }
 
-
+/* Body */
 body {
   background-color: #353b6e;
   color: white;
