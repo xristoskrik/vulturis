@@ -71,4 +71,8 @@
 .register-link a:hover {
   text-decoration: underline;
 }
+.register-text {
+  color: black;
+}
+
 
