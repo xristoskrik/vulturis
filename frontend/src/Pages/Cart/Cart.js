@@ -27,7 +27,7 @@ const Cart = () => {
     <div className="cart-page">
       {/* Categories Sidebar */}
       <aside className="categories-container">
-        <h2 className="category-title">Book Categories</h2>
+
         {categories.map((category) => (
           <div
             key={category}

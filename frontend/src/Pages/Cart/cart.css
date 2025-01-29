@@ -44,7 +44,7 @@
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
   border-radius: 40px;
-  background: #007bff;
+  background: #808080;
   border: 1px solid #ddd;
   width: 80%; /* Adjust width for better centering */
   text-align: center;
@@ -102,17 +102,17 @@
 .cart-price {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #007bff;
+  color: #6f4f1f;
   margin: 0 0 10px;
 }
 
 .cart-button {
-  background-color: #007bff;
+  background-color: #808080;
   color: #fff;
   padding: 10px 20px;
   font-size: 1rem;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 25px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
