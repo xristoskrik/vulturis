@@ -8,6 +8,7 @@
   padding: 20px;
   max-width: 1200px;
   background-color: #f9f9f9;
+  height: 100%;
 }
 
 /* Checkout Form Styles */
@@ -15,15 +16,15 @@
   flex: 1;
   max-width: 600px;
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #FFFFFF;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   border: 1px solid #ddd;
-  max-height: 700px; /* Limit the height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 700px;
+  overflow-y: auto;
 }
 
-/* Cart Container Styles */
+/* Cart Container */
 .cart-container {
   flex: 1;
   max-width: 400px;
@@ -32,8 +33,8 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 700px; /* Limit the height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 700px;
+  overflow-y: auto;
 }
 
 /* Cart Title */
@@ -44,7 +45,7 @@
   text-align: center;
 }
 
-/* Cart Item Styles */
+/* Cart Items */
 .cart-items {
   display: flex;
   flex-direction: column;
@@ -69,11 +70,18 @@
   flex: 1;
 }
 
-/* Title for Checkout */
-.title {
-  margin-bottom: 20px;
-  font-size: 2rem;
-  color: #333;
+/* Global Typography */
+h3 {
+  color: black;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+p {
+  color: #333; /* Ensure visibility */
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
 }
 
 /* Form Styles */
@@ -83,13 +91,11 @@
   gap: 15px;
 }
 
-/* Form Group (for inputs) */
 .form-group {
   text-align: left;
   flex: 1;
 }
 
-/* Input Labels */
 .label {
   display: block;
   margin-bottom: 5px;
@@ -97,7 +103,6 @@
   color: #555;
 }
 
-/* Input Fields */
 .input {
   width: 100%;
   padding: 10px;
@@ -107,11 +112,11 @@
   box-sizing: border-box;
 }
 
-/* Submit Button */
+/* Button Styles */
 .button {
-  padding: 10px 15px;
+  padding: 12px 15px;
   font-size: 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   border: none;
   background-color: #007bff;
   color: #fff;
@@ -119,19 +124,11 @@
   transition: background-color 0.3s ease;
 }
 
-/* Button Hover Effect */
 .button:hover {
   background-color: #0056b3;
 }
 
-/* Form Group for Name and Surname to display in row */
-.form-group-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Styling the quantity control buttons (+, -) */
+/* Quantity Controls */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -157,7 +154,7 @@
   cursor: not-allowed;
 }
 
-/* Remove item button style */
+/* Remove Item Button */
 .remove-item-button {
   background-color: #e74c3c;
   color: white;
@@ -173,16 +170,20 @@
   background-color: #c0392b;
 }
 
-/* Total cost section */
-.total-cost {
+/* Total Cost Styling */
+total-cost {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
   font-size: 1.2rem;
   font-weight: bold;
+  text-align: center;
+  padding: 15px 0;
+  border-top: 2px solid #ddd;
+  margin-top: 20px;
 }
 
-/* Cart and Checkout Responsive Design */
+/* Responsive Design */
 @media (max-width: 768px) {
   .checkout-container {
     flex-direction: column;
@@ -194,4 +195,7 @@
     max-width: 100%;
   }
 }
-
+.required-star {
+  color: red;
+  margin-left: 3px;
+}

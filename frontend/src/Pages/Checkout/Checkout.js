@@ -3,7 +3,7 @@ import './checkout.css';
 import { useCart } from '../../CartContext'; // Import the custom hook for cart
 
 const Register = () => {
-  const { cart, updateCartQuantity, removeFromCart } = useCart(); // Access the cart and functions from context
+  const { cart, updateCartQuantity, removeFromCart } = useCart(); // Access cart functions
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSn] = useState('');
@@ -58,13 +58,15 @@ const Register = () => {
   };
 
   // Function to increase quantity
-  const increaseQuantity = (productId) => {
-    updateCartQuantity(productId, 'increase');
+  const increaseQuantity = (productId, currentQuantity) => {
+    updateCartQuantity(productId, currentQuantity + 1);
   };
 
-  // Function to decrease quantity
-  const decreaseQuantity = (productId) => {
-    updateCartQuantity(productId, 'decrease');
+  // Function to decrease quantity (ensure it doesn’t go below 1)
+  const decreaseQuantity = (productId, currentQuantity) => {
+    if (currentQuantity > 1) {
+      updateCartQuantity(productId, currentQuantity - 1);
+    }
   };
 
   // Function to remove item from the cart
@@ -76,7 +78,7 @@ const Register = () => {
     <div className="checkout-container">
       {/* Checkout Form */}
       <div className="checkout-form">
-        <h1 className="title">Checkout</h1>
+        <h1 className="title">Shipment Details</h1>
         <form onSubmit={handleSubmit} className="form">
           <div className="form-group">
             <label htmlFor="email" className="label">Email:</label>
@@ -184,34 +186,34 @@ const Register = () => {
 
       {/* Cart Container */}
       <div className="cart-container">
-        <h2 className="cart-title">Your Cart</h2>
-        <div className="cart-items">
-          {cart.length > 0 ? (
-            cart.map((product) => (
-              <div className="cart-item" key={product.id}>
-                <img src={product.image} alt={product.name} className="cart-item-image" />
-                <div className="cart-item-details">
-                  <h3>{product.name}</h3>
-                  <p>${product.price}</p>
-                  <div className="quantity-controls">
-                    <button onClick={() => decreaseQuantity(product.id)}>-</button>
-                    <span>{product.quantity}</span>
-                    <button onClick={() => increaseQuantity(product.id)}>+</button>
-                  </div>
-                  <p>Total: ${(product.price * product.quantity).toFixed(2)}</p>
-                  <button onClick={() => removeItem(product.id)} className="remove-item-button">Remove</button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>Your cart is empty.</p>
-          )}
+  <h2 className="cart-title">Cart</h2>
+  <div className="cart-items">
+    {cart.length > 0 ? (
+      cart.map((product) => (
+        <div className="cart-item" key={product.id}>
+          <img src={product.image} alt={product.name} className="cart-item-image" />
+          <div className="cart-item-details">
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+            <div className="quantity-controls">
+              <button onClick={() => decreaseQuantity(product.id, product.quantity)}>-</button>
+              <span>{product.quantity}</span>
+              <button onClick={() => increaseQuantity(product.id, product.quantity)}>+</button>
+            </div>
+            <button onClick={() => removeItem(product.id)} className="remove-item-button">Remove</button>
+          </div>
         </div>
-        {/* Total Cost Section */}
-        <div className="total-cost">
-          <h3>Total: ${totalCost.toFixed(2)}</h3>
-        </div>
-      </div>
+      ))
+    ) : (
+      <p>Your cart is empty.</p>
+    )}
+  </div>
+
+  {/* Total Cost - Moved Inside Cart Container */}
+  <div className="total-cost">
+    <h3>Total: ${totalCost.toFixed(2)}</h3>
+  </div>
+</div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h2>Welcome to our book store!</h2>
+      <h2 className="welcome-heading">Welcome to our book store!</h2>
       <p>Check out some of our books!</p>
       <div className="random-products-grid">
         {randomProducts.map((product) => (
