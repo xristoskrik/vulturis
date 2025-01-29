@@ -25,30 +25,32 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
-      {/* Categories at the Top */}
-      <div className="categories-container">
+      {/* Categories Sidebar */}
+      <aside className="categories-container">
+        <h2 className="category-title">Book Categories</h2>
         {categories.map((category) => (
           <div
             key={category}
-            className={`category-item ${
-              selectedCategory === category ? "active" : ""
-            }`}
+            className={`category-item ${selectedCategory === category ? "active" : ""}`}
             onClick={() => setSelectedCategory(category)}
           >
             {category}
           </div>
         ))}
-      </div>
+      </aside>
 
       {/* Product Grid */}
       <div className="cart-grid">
-        {filteredProducts.map((product) => (
-          <ProductCart key={product.id} data={product} />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCart key={product.id} data={product} />
+          ))
+        ) : (
+          <p className="no-products">No books available in this category.</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default Cart;
-

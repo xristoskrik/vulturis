@@ -66,3 +66,10 @@ p {
   color: #000;
 }
 
+.welcome-heading {
+  color: white; /* Make text white */
+  font-size: 2rem; /* You can adjust the font size as needed */
+  text-align: center; /* Center align the text if needed */
+  margin: 20px 0; /* Adjust margin as necessary */
+}
+
