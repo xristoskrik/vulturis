@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -215,6 +216,43 @@ func (cfg *ApiConfig) UserloginHandler(w http.ResponseWriter, r *http.Request) {
 		},
 		Token:        accessToken,
 		RefreshToken: refreshToken,
+	})
+
+}
+func (cfg *ApiConfig) UserAuthenticateHandler(w http.ResponseWriter, r *http.Request) {
+
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		RespondWithError(w, http.StatusUnauthorized, "Missing Authorization header", nil)
+		return
+	}
+	fmt.Println(authHeader)
+
+	// Extract token (assuming Bearer scheme)
+	tokenParts := strings.Split(authHeader, " ")
+	if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
+		RespondWithError(w, http.StatusUnauthorized, "Invalid Authorization header format", nil)
+		return
+	}
+	token := tokenParts[1]
+
+	// Validate token
+	userID, err := auth.ValidateJWT(token, cfg.SecretKey)
+	if err != nil {
+		RespondWithError(w, http.StatusUnauthorized, "Invalid or expired token", err)
+		return
+	}
+
+	// Fetch user details
+	user, err := cfg.DB.GetUserById(context.Background(), userID)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "User not found", err)
+		return
+	}
+	fmt.Println(user)
+	RespondWithJSON(w, http.StatusOK, database.User{
+		ID:    user.ID,
+		Email: user.Email,
 	})
 
 }

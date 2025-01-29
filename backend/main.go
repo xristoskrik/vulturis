@@ -47,7 +47,7 @@ func main() {
 
 	//cors
 	cors := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
+		AllowedOrigins:   []string{"http://localhost:3000"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
@@ -61,6 +61,7 @@ func main() {
 		r.Put("/users", apiCfg.UserUpdateHandler)
 		r.Get("/users", apiCfg.UserGetHandler)
 		r.Post("/users/login", apiCfg.UserloginHandler)
+		r.Get("/users/authenticate", apiCfg.UserAuthenticateHandler)
 
 		r.Get("/orders", apiCfg.OrdersGetHandler)
 
