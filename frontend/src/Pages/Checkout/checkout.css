@@ -1,31 +1,95 @@
-.container {
-  text-align: center;
+/* Container for the entire Checkout and Cart section */
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
   margin: 50px auto;
   padding: 20px;
-  max-width: 400px;
-  border-radius: 8px;
-  background-color: #f4f4f4;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  max-width: 1200px;
+  background-color: #f9f9f9;
 }
 
+/* Checkout Form Styles */
+.checkout-form {
+  flex: 1;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  max-height: 700px; /* Limit the height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Cart Container Styles */
+.cart-container {
+  flex: 1;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 700px; /* Limit the height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Cart Title */
+.cart-title {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Cart Item Styles */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.cart-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+/* Title for Checkout */
 .title {
   margin-bottom: 20px;
   font-size: 2rem;
   color: #333;
 }
 
+/* Form Styles */
 .form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+/* Form Group (for inputs) */
 .form-group {
   text-align: left;
-  flex: 1;	
+  flex: 1;
 }
 
+/* Input Labels */
 .label {
   display: block;
   margin-bottom: 5px;
@@ -33,6 +97,7 @@
   color: #555;
 }
 
+/* Input Fields */
 .input {
   width: 100%;
   padding: 10px;
@@ -42,6 +107,7 @@
   box-sizing: border-box;
 }
 
+/* Submit Button */
 .button {
   padding: 10px 15px;
   font-size: 1rem;
@@ -53,15 +119,79 @@
   transition: background-color 0.3s ease;
 }
 
+/* Button Hover Effect */
 .button:hover {
   background-color: #0056b3;
 }
 
+/* Form Group for Name and Surname to display in row */
 .form-group-row {
   display: flex;
   justify-content: space-between;
-  gap: 20px; 
+  gap: 20px;
 }
 
+/* Styling the quantity control buttons (+, -) */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.quantity-controls button {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-controls button:hover {
+  background-color: #ddd;
+}
+
+.quantity-controls button:disabled {
+  background-color: #e1e1e1;
+  cursor: not-allowed;
+}
+
+/* Remove item button style */
+.remove-item-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-item-button:hover {
+  background-color: #c0392b;
+}
+
+/* Total cost section */
+.total-cost {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Cart and Checkout Responsive Design */
+@media (max-width: 768px) {
+  .checkout-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .checkout-form,
+  .cart-container {
+    max-width: 100%;
+  }
+}
 
