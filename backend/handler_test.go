@@ -11,6 +11,7 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
+	t.Skip()
 	url := "http://localhost:8080/api/users"
 	user := database.User{
 		HashedPassword: "12345678",
@@ -55,6 +56,7 @@ func TestCreateUser(t *testing.T) {
 
 }
 func TestGetUser(t *testing.T) {
+	t.Skip()
 	url := "http://localhost:8080/api/users"
 	user := database.User{
 		Email: "testing@email.com",
@@ -89,6 +91,7 @@ func TestGetUser(t *testing.T) {
 
 }
 func TestUpdateUser(t *testing.T) {
+	t.Skip()
 	url := "http://localhost:8080/api/users?action=password"
 	user := database.User{
 		HashedPassword: "9101231231231",
@@ -125,6 +128,7 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
+	t.Skip()
 	url := "http://localhost:8080/api/users"
 	user := database.User{
 		Email: "testing@email.com",

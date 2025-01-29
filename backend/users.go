@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	_ "github.com/lib/pq"
@@ -12,44 +15,46 @@ import (
 )
 
 type ApiConfig struct {
-	DB *database.Queries
+	DB        *database.Queries
+	SecretKey string
 }
 
 func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) {
-	//user struct
-	var create_user database.User
-	//decoder
-	decoder := json.NewDecoder(r.Body)
 
-	//decoding json
-	err := decoder.Decode(&create_user)
+	type parameters struct {
+		Password string `json:"password"`
+		Email    string `json:"email"`
+		Username string `json:"username"`
+	}
+	decoder := json.NewDecoder(r.Body)
+	params := parameters{}
+
+	err := decoder.Decode(&params)
 	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid credentials", err)
+		RespondWithError(w, http.StatusInternalServerError, "Couldn't decode parameters", err)
 		return
 	}
-	//hash password
-	hashed, err := auth.HashPassword(create_user.HashedPassword)
+	fmt.Println(params)
+	hashed, err := auth.HashPassword(params.Password)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, "Can't create user", err)
 		return
 	}
-	//create user
 	user, err := cfg.DB.CreateUser(context.Background(), database.CreateUserParams{
 		HashedPassword: hashed,
-		Email:          create_user.Email,
-		Name:           create_user.Name,
-		Surname:        create_user.Surname,
-		Phone:          create_user.Phone,
-		Mobile:         create_user.Mobile,
-		Address:        create_user.Address,
+		Email:          params.Email,
 	})
 	if err != nil {
-		RespondWithError(w, http.StatusConflict, "Email already exists", err)
+		RespondWithError(w, http.StatusInternalServerError, "Can't create user", err)
 		return
 	}
 
-	//respond with created user
-	RespondWithJSON(w, 201, ("created user " + user.Name))
+	RespondWithJSON(w, 201, database.User{
+		ID:        user.ID,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+		Email:     user.Email,
+	})
 }
 
 func (cfg *ApiConfig) UserDeleteHandler(w http.ResponseWriter, r *http.Request) {
@@ -139,4 +144,77 @@ func (cfg *ApiConfig) UserGetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	RespondWithJSON(w, http.StatusOK, user)
+}
+
+
+func (cfg *ApiConfig) UserloginHandler(w http.ResponseWriter, r *http.Request) {
+	type parameters struct {
+		Password string `json:"password"`
+		Email    string `json:"email"`
+	}
+	type response struct {
+		database.User
+		Token        string `json:"token"`
+		RefreshToken string `json:"refresh_token"`
+	}
+	decoder := json.NewDecoder(r.Body)
+	params := parameters{}
+	err := decoder.Decode(&params)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Couldn't decode parameters", err)
+		return
+	}
+	fmt.Println(params)
+	user, err := cfg.DB.GetUser(context.Background(), params.Email)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "email  wrong", err)
+		return
+	}
+	err = auth.CheckPasswordHash(params.Password, user.HashedPassword)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, " password wrong", err)
+		return
+	}
+	accessToken, err := auth.MakeJWT(
+		user.ID,
+		cfg.SecretKey,
+		time.Hour,
+	)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Couldn't create access JWT", err)
+		return
+	}
+
+	refreshToken, err := auth.MakeRefreshToken()
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Couldn't create refresh token", err)
+		return
+	}
+
+	_, err = cfg.DB.CreateRefreshToken(r.Context(), database.CreateRefreshTokenParams{
+		UserID:    user.ID,
+		Token:     refreshToken,
+		ExpiresAt: sql.NullTime{Time: time.Now().AddDate(0, 0, 60), Valid: true},
+	})
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Couldn't save refresh token", err)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    accessToken,
+		Expires:  time.Now().Add(24 * time.Hour),
+		HttpOnly: true,
+		Secure:   false,
+		Path:     "/",
+	})
+	RespondWithJSON(w, 200, response{
+		User: database.User{
+			ID:    user.ID,
+			Email: user.Email,
+		},
+		Token:        accessToken,
+		RefreshToken: refreshToken,
+	})
+
 }

@@ -48,7 +48,7 @@ func ValidateJWT(tokenString, tokenSecret string) (uuid.UUID, error) {
 	if err != nil {
 		return uuid.Nil, err
 	}
-	if issuer != string("yourmusic") {
+	if issuer != string("vulturis") {
 		return uuid.Nil, errors.New("invalid issuer")
 	}
 

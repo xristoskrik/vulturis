@@ -21,7 +21,8 @@ func main() {
 
 	//loading the secret key and database url
 	dbURL := os.Getenv("DB_URL")
-
+	secret := os.Getenv("SECRET_KEY")
+	
 	//open postgres db
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
@@ -37,7 +38,8 @@ func main() {
 
 	//Initialize api config
 	apiCfg := ApiConfig{
-		DB: dbQueries,
+		DB:        dbQueries,
+		SecretKey: secret,
 	}
 
 	//router
@@ -58,6 +60,7 @@ func main() {
 		r.Delete("/users", apiCfg.UserDeleteHandler)
 		r.Put("/users", apiCfg.UserUpdateHandler)
 		r.Get("/users", apiCfg.UserGetHandler)
+		r.Post("/users/login", apiCfg.UserloginHandler)
 
 		r.Get("/orders", apiCfg.OrdersGetHandler)
 
@@ -65,9 +68,8 @@ func main() {
 		r.Get("/products", apiCfg.ProductGetHandler)
 		r.Put("/products", apiCfg.ProductUpdateHandler)
 		r.Delete("/products", apiCfg.ProductDeleteHandler)
-
+		
 		/*
-			r.Post("/users/login", apiCfg.LoginUserHandler)
 			r.Post("/users/login", apiCfg.LoginUserHandler)
 			r.Post("/users/logout", apiCfg.UserLogoutHandler)
 		*/

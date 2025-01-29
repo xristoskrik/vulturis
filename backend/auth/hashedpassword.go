@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"fmt"
-
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -15,6 +13,5 @@ func HashPassword(password string) (string, error) {
 }
 
 func CheckPasswordHash(password, hash string) error {
-	fmt.Println(password)
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }
