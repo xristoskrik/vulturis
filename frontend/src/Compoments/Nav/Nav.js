@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../src/AuthContext';
 import './nav.css';
+import cartIcon from './Cart.png';
 
 const Nav = () => {
   const { isLoggedIn, user, logout } = useAuth(); // Access login state and logout function
@@ -11,14 +12,25 @@ const Nav = () => {
       {/* Top Bar */}
       <div className="top-bar">
         {!isLoggedIn ? (
-          <ul>
-            <li><Link to="/login">Login</Link></li>
-            <p>|</p>
-            <li><Link to="/register">Register</Link></li>
-          </ul>
+            <ul>
+    <li><Link to="/login">Login</Link></li>
+    <p>|</p>
+    <li><Link to="/register">Register</Link></li>
+    <p>|</p>
+    <li>
+      <Link to="/checkout">
+        <img src={cartIcon} alt="Cart" className="cart-icon" />
+      </Link>
+    </li>
+  </ul>
         ) : (
           <div className="top-bar-user">
-            <p>Welcome, {user} <button onClick={logout} className="logout-button">Logout</button></p>
+               <p>
+      Welcome, {user} <button onClick={logout} className="logout-button">Logout</button>
+
+    </p><Link to="/checkout">
+        <img src={cartIcon} alt="Cart" className="cart-icon" />
+      </Link>
 
           </div>
         )}
