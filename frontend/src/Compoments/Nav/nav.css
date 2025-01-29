@@ -1,9 +1,8 @@
-/* Shared Top Bar Styles */
 .top-bar, .top-bar-user {
   background-color: #6f4f1f; 
   color: white;
-  padding: 0 20px;
-  font-size: 1rem;
+  padding: 20px;
+  font-size: 1.10rem; /* Increased by 5% */
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -14,7 +13,7 @@
 
 .top-bar p, .top-bar-user p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.10rem; /* Increased by 5% */
   line-height: 40px;
 }
 
@@ -28,13 +27,13 @@
 }
 
 .top-bar li, .top-bar-user li {
-  font-size: 1rem;
+  font-size: 1.10rem; /* Increased by 5% */
 }
 
 .top-bar a, .top-bar-user a {
   color: white;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.10rem; /* Increased by 5% */
   transition: color 0.3s ease;
 }
 
@@ -42,10 +41,9 @@
   color: #00bcd4;
 }
 
-/* Cart Icon */
 .cart-icon {
-  width: 40px;
-  height: 40px;
+  width: 42px; /* Slightly increased */
+  height: 42px;
   margin-left: 15px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -57,13 +55,12 @@
   transform: scale(1.1);
 }
 
-/* Fancy Logout Button */
 .logout-button {
   background-color: #ff5722;
   color: white;
   border: none;
   padding: 8px 15px;
-  font-size: 1rem;
+  font-size: 1.10rem; /* Increased by 5% */
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -96,7 +93,7 @@
 }
 
 .navbar-title {
-  font-size: 1.5rem;
+  font-size: 1.575rem; /* Increased by 5% */
   font-weight: bold;
 }
 
@@ -114,7 +111,7 @@
 .navbar-links a {
   color: white;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.15rem; /* Increased by 5% */
   transition: color 0.3s ease;
 }
 
@@ -133,5 +130,19 @@ body {
   color: white;
   margin: 0;
   font-family: Arial, sans-serif;
+}
+
+.cart-count {
+  background-color: red;
+  color: white;
+  font-size: 14.7px; /* Increased by 5% */
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 5px 8px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  min-width: 20px;
+  text-align: center;
 }
 

@@ -4,7 +4,7 @@ import { useAuth } from '../../AuthContext';
 import './Login.css';
 
 const Login = () => {
-  const { login } = useAuth(); // Access the login function from AuthContext
+  const { login } = useAuth(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,9 +23,9 @@ const Login = () => {
     } else if (password !== fixedAccount.password) {
       setError('Incorrect password.');
     } else {
-      login(email); // Update login state in AuthContext
+      login(email); 
       setError('');
-      navigate('/'); // Redirect to home page after login
+      navigate('/'); 
     }
   };
 

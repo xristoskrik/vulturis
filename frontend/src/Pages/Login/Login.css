@@ -75,4 +75,21 @@
   color: black;
 }
 
+.switch-text {
+  color: black;
+  text-align: center;
+}
+
+.switch-button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+}
+
+.switch-button:hover {
+  color: darkblue;
+}
 
