@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-const commitOrder = `-- name: CommitOrder :one
+const commitOrder = `-- name: CommitOrder :exec
 select  from commit_order($1::UUID, $2::UUID)
 `
 
@@ -20,14 +20,9 @@ type CommitOrderParams struct {
 	Column2 uuid.UUID
 }
 
-type CommitOrderRow struct {
-}
-
-func (q *Queries) CommitOrder(ctx context.Context, arg CommitOrderParams) (CommitOrderRow, error) {
-	row := q.db.QueryRowContext(ctx, commitOrder, arg.Column1, arg.Column2)
-	var i CommitOrderRow
-	err := row.Scan()
-	return i, err
+func (q *Queries) CommitOrder(ctx context.Context, arg CommitOrderParams) error {
+	_, err := q.db.ExecContext(ctx, commitOrder, arg.Column1, arg.Column2)
+	return err
 }
 
 const createOrder = `-- name: CreateOrder :one

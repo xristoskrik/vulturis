@@ -62,4 +62,5 @@ type User struct {
 	Phone          string
 	Mobile         string
 	Address        string
+	Isadmin        bool
 }

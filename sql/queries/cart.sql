@@ -28,14 +28,17 @@ UPDATE cart SET amount = $1
 WHERE id = $2
 RETURNING *;
 
--- name: DeleteCartByID :exec
-delete from cart WHERE id = $1;
-
 -- name: GetCart :one
-SELECT * FROM cart WHERE $1 = cart.id;
+SELECT * FROM cart WHERE $1 = cart.id and $2 = cart.user_uuid;
 
--- name: GetCartByUserUUID :one
+-- name: GetCartByUserUUID :many
 SELECT * FROM cart WHERE $1 = cart.user_uuid;
+
+-- name: DeleteCartByID :exec
+delete from cart WHERE cart.user_uuid = $1;
+
+-- name: DeleteCartProductByUserUUID :exec
+delete from cart WHERE cart.user_uuid = $1 AND cart.id = $2;
 
 -- name: DeleteCarts :exec
 delete  from cart;

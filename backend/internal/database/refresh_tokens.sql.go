@@ -44,8 +44,36 @@ func (q *Queries) CreateRefreshToken(ctx context.Context, arg CreateRefreshToken
 	return i, err
 }
 
+const getAdminFromRefreshToken = `-- name: GetAdminFromRefreshToken :one
+SELECT users.id, users.created_at, users.updated_at, users.email, users.hashed_password, users.name, users.surname, users.phone, users.mobile, users.address, users.isadmin FROM users
+JOIN refresh_tokens ON users.id = refresh_tokens.user_id
+WHERE refresh_tokens.token = $1
+AND revoked_at IS NULL
+AND expires_at > NOW()
+AND isadmin = TRUE
+`
+
+func (q *Queries) GetAdminFromRefreshToken(ctx context.Context, token string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getAdminFromRefreshToken, token)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.HashedPassword,
+		&i.Name,
+		&i.Surname,
+		&i.Phone,
+		&i.Mobile,
+		&i.Address,
+		&i.Isadmin,
+	)
+	return i, err
+}
+
 const getUserFromRefreshToken = `-- name: GetUserFromRefreshToken :one
-SELECT users.id, users.created_at, users.updated_at, users.email, users.hashed_password, users.name, users.surname, users.phone, users.mobile, users.address FROM users
+SELECT users.id, users.created_at, users.updated_at, users.email, users.hashed_password, users.name, users.surname, users.phone, users.mobile, users.address, users.isadmin FROM users
 JOIN refresh_tokens ON users.id = refresh_tokens.user_id
 WHERE refresh_tokens.token = $1
 AND revoked_at IS NULL
@@ -66,6 +94,7 @@ func (q *Queries) GetUserFromRefreshToken(ctx context.Context, token string) (Us
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
 }

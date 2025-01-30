@@ -29,6 +29,11 @@ UPDATE users SET hashed_password = $1
 WHERE email = $2
 RETURNING *;
 
+-- name: UpdateUserAdmin :exec
+UPDATE users
+SET isadmin = $1
+WHERE id = $2;
+
 -- name: DeleteUserById :exec
 delete from users WHERE id = $1;
 -- name: DeleteUserByEmail :exec

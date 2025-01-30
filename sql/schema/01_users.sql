@@ -10,7 +10,8 @@ CREATE TABLE users(
         surname TEXT NOT NULL,
         phone TEXT NOT NULL,
         mobile TEXT NOT NULL,
-        address TEXT NOT NULL);
+        address TEXT NOT NULL,
+        isadmin BOOL NOT NULL DEFAULT FALSE);
 
 -- +goose Down
 DROP TABLE users;

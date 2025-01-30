@@ -69,23 +69,32 @@ func main() {
 
 	//endpoints
 	r.Route("/api", func(r chi.Router) {
-		r.Post("/users", apiCfg.UserCreateHandler)
+		r.Post("/users",   apiCfg.UserCreateHandler)
+		r.Get("/users",    apiCfg.UserGetHandler)
+		r.Put("/users",    apiCfg.UserUpdateHandler)
 		r.Delete("/users", apiCfg.UserDeleteHandler)
-		r.Put("/users", apiCfg.UserUpdateHandler)
-		r.Get("/users", apiCfg.UserGetHandler)
 
-		r.Get("/orders", apiCfg.OrdersGetHandler)
-		r.Get("/orders", apiCfg.OrderCommitingHandler)
+		r.Post("/orders",   apiCfg.OrderCreateHandler)		//AUTH
+		r.Get("/orders",    apiCfg.OrderGetHandler)		//AUTH
+		r.Put("/orders",    apiCfg.OrderUpdateHandler) 		//ADMIN
+		r.Delete("/orders", apiCfg.OrderDeleteHandler)		//ADMIN NOT USED
 
-		r.Post("/products", apiCfg.ProductCreateHandler)
-                r.Get("/products", apiCfg.ProductGetHandler)
-		r.Put("/products", apiCfg.ProductUpdateHandler)
-		r.Delete("/products", apiCfg.ProductDeleteHandler)
+		r.Post("/products",   apiCfg.ProductCreateHandler)	//ADMIN
+                r.Get("/products",    apiCfg.ProductGetHandler)		//PUBLIC
+		r.Put("/products",    apiCfg.ProductUpdateHandler)	//ADMIN
+		r.Delete("/products", apiCfg.ProductDeleteHandler)	//ADMIN
 
+		//--------------------//
 
+		r.Post("/orders/products",   apiCfg.OrderedProductsCreateHandler)	//ADMIN -- NOT USED
+		r.Get("/orders/products",    apiCfg.OrderedProductsGetHandler)		//AUTH
+		r.Put("/orders/products",    apiCfg.OrderedProductsUpdateHandler) 	//ADMIN -- NOT USED
+		r.Delete("/orders/products", apiCfg.OrderedProductsDeleteHandler)	//ADMIN -- NOT USED
 
-
-
+		r.Post("/cart",   apiCfg.CartCreateHandler)		//AUTH
+		r.Get("/cart",    apiCfg.CartGetHandler)		//AUTH
+		r.Put("/cart",    apiCfg.CartUpdateHandler) 		//AUTH SOME ADMIN
+		r.Delete("/cart", apiCfg.CartDeleteHandler)		//AUTH
 
 		/*
 			r.Post("/users/login", apiCfg.LoginUserHandler)

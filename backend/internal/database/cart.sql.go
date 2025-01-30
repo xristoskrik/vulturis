@@ -40,11 +40,25 @@ func (q *Queries) CreateCart(ctx context.Context, arg CreateCartParams) (Cart, e
 }
 
 const deleteCartByID = `-- name: DeleteCartByID :exec
-delete from cart WHERE id = $1
+delete from cart WHERE cart.user_uuid = $1
 `
 
-func (q *Queries) DeleteCartByID(ctx context.Context, id int32) error {
-	_, err := q.db.ExecContext(ctx, deleteCartByID, id)
+func (q *Queries) DeleteCartByID(ctx context.Context, userUuid uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, deleteCartByID, userUuid)
+	return err
+}
+
+const deleteCartProductByUserUUID = `-- name: DeleteCartProductByUserUUID :exec
+delete from cart WHERE cart.user_uuid = $1 AND cart.id = $2
+`
+
+type DeleteCartProductByUserUUIDParams struct {
+	UserUuid uuid.UUID
+	ID       int32
+}
+
+func (q *Queries) DeleteCartProductByUserUUID(ctx context.Context, arg DeleteCartProductByUserUUIDParams) error {
+	_, err := q.db.ExecContext(ctx, deleteCartProductByUserUUID, arg.UserUuid, arg.ID)
 	return err
 }
 
@@ -58,11 +72,16 @@ func (q *Queries) DeleteCarts(ctx context.Context) error {
 }
 
 const getCart = `-- name: GetCart :one
-SELECT id, user_uuid, product_code, amount FROM cart WHERE $1 = cart.id
+SELECT id, user_uuid, product_code, amount FROM cart WHERE $1 = cart.id and $2 = cart.user_uuid
 `
 
-func (q *Queries) GetCart(ctx context.Context, id int32) (Cart, error) {
-	row := q.db.QueryRowContext(ctx, getCart, id)
+type GetCartParams struct {
+	ID       int32
+	UserUuid uuid.UUID
+}
+
+func (q *Queries) GetCart(ctx context.Context, arg GetCartParams) (Cart, error) {
+	row := q.db.QueryRowContext(ctx, getCart, arg.ID, arg.UserUuid)
 	var i Cart
 	err := row.Scan(
 		&i.ID,
@@ -73,20 +92,36 @@ func (q *Queries) GetCart(ctx context.Context, id int32) (Cart, error) {
 	return i, err
 }
 
-const getCartByUserUUID = `-- name: GetCartByUserUUID :one
+const getCartByUserUUID = `-- name: GetCartByUserUUID :many
 SELECT id, user_uuid, product_code, amount FROM cart WHERE $1 = cart.user_uuid
 `
 
-func (q *Queries) GetCartByUserUUID(ctx context.Context, userUuid uuid.UUID) (Cart, error) {
-	row := q.db.QueryRowContext(ctx, getCartByUserUUID, userUuid)
-	var i Cart
-	err := row.Scan(
-		&i.ID,
-		&i.UserUuid,
-		&i.ProductCode,
-		&i.Amount,
-	)
-	return i, err
+func (q *Queries) GetCartByUserUUID(ctx context.Context, userUuid uuid.UUID) ([]Cart, error) {
+	rows, err := q.db.QueryContext(ctx, getCartByUserUUID, userUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Cart
+	for rows.Next() {
+		var i Cart
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserUuid,
+			&i.ProductCode,
+			&i.Amount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateCart = `-- name: UpdateCart :one

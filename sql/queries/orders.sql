@@ -32,7 +32,7 @@ delete from orders WHERE order_code = $1;
 -- name: DeleteOrderByUser :exec
 delete from orders WHERE user_uuid = $1;
 
--- name: CommitOrder :one
+-- name: CommitOrder :exec
 select * from commit_order($1::UUID, $2::UUID);
 
 -- name: DeleteOrders :exec

@@ -25,7 +25,7 @@ VALUES (
     $6,
     $7
 )
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address, isadmin
 `
 
 type CreateUserParams struct {
@@ -60,6 +60,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
 }
@@ -92,7 +93,7 @@ func (q *Queries) DeleteUsers(ctx context.Context) error {
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address FROM users WHERE $1 = users.email
+SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address, isadmin FROM users WHERE $1 = users.email
 `
 
 func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
@@ -109,12 +110,13 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
 }
 
 const getUserById = `-- name: GetUserById :one
-SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address FROM users WHERE $1 = users.id
+SELECT id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address, isadmin FROM users WHERE $1 = users.id
 `
 
 func (q *Queries) GetUserById(ctx context.Context, id uuid.UUID) (User, error) {
@@ -131,14 +133,31 @@ func (q *Queries) GetUserById(ctx context.Context, id uuid.UUID) (User, error) {
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
+}
+
+const updateUserAdmin = `-- name: UpdateUserAdmin :exec
+UPDATE users
+SET isadmin = $1
+WHERE id = $2
+`
+
+type UpdateUserAdminParams struct {
+	Isadmin bool
+	ID      uuid.UUID
+}
+
+func (q *Queries) UpdateUserAdmin(ctx context.Context, arg UpdateUserAdminParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserAdmin, arg.Isadmin, arg.ID)
+	return err
 }
 
 const updateUserEmailById = `-- name: UpdateUserEmailById :one
 UPDATE users SET email = $1
 WHERE id = $2
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address, isadmin
 `
 
 type UpdateUserEmailByIdParams struct {
@@ -160,6 +179,7 @@ func (q *Queries) UpdateUserEmailById(ctx context.Context, arg UpdateUserEmailBy
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
 }
@@ -167,7 +187,7 @@ func (q *Queries) UpdateUserEmailById(ctx context.Context, arg UpdateUserEmailBy
 const updateUserPasswordByEmail = `-- name: UpdateUserPasswordByEmail :one
 UPDATE users SET hashed_password = $1
 WHERE email = $2
-RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address
+RETURNING id, created_at, updated_at, email, hashed_password, name, surname, phone, mobile, address, isadmin
 `
 
 type UpdateUserPasswordByEmailParams struct {
@@ -189,6 +209,7 @@ func (q *Queries) UpdateUserPasswordByEmail(ctx context.Context, arg UpdateUserP
 		&i.Phone,
 		&i.Mobile,
 		&i.Address,
+		&i.Isadmin,
 	)
 	return i, err
 }

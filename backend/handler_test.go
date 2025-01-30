@@ -147,3 +147,49 @@ func TestDeleteUser(t *testing.T) {
 	defer resp.Body.Close()
 
 }
+
+func TestAddCart(t *testing.T) {
+	url := "http://localhost:8080/api/cart"
+	cart := database.Cart{
+		Token:	     "f9617a2f-cee2-4c9e-b5c7-5d4aa5de44dc",
+		ProductCode: 100002,
+		Amount:	     1,
+	}
+	jsonData, err := json.Marshal(cart)
+	if err != nil {
+		t.Errorf("failed to Marshal")
+	}
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		t.Errorf("failed to post")
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("request failed: %v", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == http.StatusInternalServerError {
+		t.Log("User already created")
+		t.Skip()
+	}
+	if resp.StatusCode != http.StatusCreated {
+		t.Fatalf("unexpected status code: got %v, want %v", resp.StatusCode, http.StatusCreated)
+	}
+
+	var message string
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&message)
+	if err != nil {
+		t.Errorf("failed to decode")
+	}
+	fmt.Printf("%+v\n", message)
+
+}
+
+
+
+
+

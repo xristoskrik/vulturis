@@ -24,6 +24,7 @@ func deref(s *string) string {
 
 func (cfg *ApiConfig) ProductCreateHandler(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
+		Token       string  `json:"token"`
 		Name        string  `json:"name"`
 		Stock       int32   `json:"stock"`
 		Price       float32 `json:"price"`
@@ -38,6 +39,15 @@ func (cfg *ApiConfig) ProductCreateHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	//--- checks the token to see if its expired first and then it continues ---//
+
+	authenticate, err := cfg.DB.GetAdminFromRefreshToken(context.Background(), params.Token)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Invalid or expired Token", err)
+		return
+	}
+
+	_ = authenticate
 	//create product
 
 	product, err := cfg.DB.CreateProduct(context.Background(), database.CreateProductParams{
@@ -98,6 +108,7 @@ func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) 
 func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	//needs email and password or id and email for parameters
 	type parameters struct {
+		Token       string         `json:"token"`
 		Code        int32          `json:"code"`
 		Name        string         `json:"name"`
 		Stock       int32          `json:"stock"`
@@ -112,6 +123,16 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 		RespondWithError(w, http.StatusBadRequest, "Invalid product", err)
 		return
 	}
+
+	//--- checks the token to see if its expired first and then it continues ---//
+
+	authenticate, err := cfg.DB.GetAdminFromRefreshToken(context.Background(), params.Token)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Invalid or expired Token", err)
+		return
+	}
+
+	_ = authenticate
 
 	if action == "stock" {
 		_, err = cfg.DB.UpdateProductStock(context.Background(), database.UpdateProductStockParams{
@@ -176,7 +197,8 @@ func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Reques
 func (cfg *ApiConfig) ProductDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	//needs email for parameters
 	type parameters struct {
-		Code int32 `json:"code"`
+		Token string `json:"token"`
+		Code  int32  `json:"code"`
 	}
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
@@ -185,6 +207,17 @@ func (cfg *ApiConfig) ProductDeleteHandler(w http.ResponseWriter, r *http.Reques
 		RespondWithError(w, http.StatusBadRequest, "Invalid code", err)
 		return
 	}
+
+	//--- checks the token to see if its expired first and then it continues ---//
+
+	authenticate, err := cfg.DB.GetAdminFromRefreshToken(context.Background(), params.Token)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Invalid or expired Token", err)
+		return
+	}
+
+	_ = authenticate
+
 	err = cfg.DB.DeleteProductByCode(context.Background(), params.Code)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, "Cant find product", err)
