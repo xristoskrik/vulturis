@@ -1,42 +1,25 @@
-
 -- name: CreateProduct :one
-INSERT INTO products (name, stock, description)
+INSERT INTO products (name, price, category, image, stock, description, slug)
 VALUES (
-    $1,
-    $2,
-    $3
+    $1, $2, $3, $4, $5, $6, $7
 )
-RETURNING *;
+RETURNING id, name, price, category, image, stock, description, slug;
 
 -- name: UpdateProduct :one
 UPDATE products
-SET name = $1, stock = $2,description = $3
-WHERE product_code = $4
-RETURNING *;
+SET name = $1, price = $2, category = $3, image = $4, stock = $5, description = $6, slug = $7
+WHERE id = $8
+RETURNING id, name, price, category, image, stock, description, slug;
 
--- name: UpdateProductStock :one
-UPDATE products SET stock = $1
-WHERE product_code = $2
-RETURNING *;
+-- name: GetAllProducts :many
+SELECT id, name, price, category, image, stock, description, slug
+FROM products;
 
--- name: UpdateProductDescription :one
-UPDATE products SET description = $1
-WHERE product_code = $2
-RETURNING *;
+-- name: DeleteProductById :exec
+DELETE FROM products WHERE id = $1;
 
--- name: UpdateProductName :one
-UPDATE products SET name = $1
-WHERE product_code = $2
-RETURNING *;
+-- name: GetProductById :one
+SELECT * FROM products WHERE id = $1;
 
--- name: DeleteProductByCode :exec
-delete from products WHERE product_code = $1;
-
--- name: GetProduct :one
-SELECT * FROM products WHERE $1 = products.name;
-
--- name: GetUserByCode :one
-SELECT * FROM products WHERE $1 = products.product_code;
-
--- name: DeleteProducts :exec
-delete  from products;
+-- name: GetProductBySlug :one
+SELECT * FROM products WHERE slug = $1;

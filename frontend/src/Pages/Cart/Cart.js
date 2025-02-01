@@ -27,11 +27,12 @@ const Cart = () => {
     <div className="cart-page">
       {/* Categories Sidebar */}
       <aside className="categories-container">
-
         {categories.map((category) => (
           <div
             key={category}
-            className={`category-item ${selectedCategory === category ? "active" : ""}`}
+            className={`category-item ${
+              selectedCategory === category ? "active" : ""
+            }`}
             onClick={() => setSelectedCategory(category)}
           >
             {category}

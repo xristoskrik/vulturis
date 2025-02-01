@@ -20,10 +20,14 @@ type Order struct {
 }
 
 type Product struct {
-	ProductCode int32
+	ID          int32
 	Name        string
+	Price       string
+	Category    string
+	Image       sql.NullString
 	Stock       int32
 	Description sql.NullString
+	Slug        string
 }
 
 type RefreshToken struct {

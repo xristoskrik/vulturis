@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../CartContext'; // Import Cart Context
-import './cart.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../../CartContext"; // Assuming this is your Cart context
+import "./cart.css";
 
 const ProductCart = ({ data }) => {
   const { id, name, price, image, slug } = data;
@@ -24,9 +24,7 @@ const ProductCart = ({ data }) => {
 
       <div className="cart-footer">
         {/* Product Price */}
-        <p className="cart-price">
-          ${price}
-        </p>
+        <p className="cart-price">${price}</p>
 
         {/* Add to Cart Button */}
         <button className="cart-button" onClick={handleAddToCart}>
@@ -38,4 +36,3 @@ const ProductCart = ({ data }) => {
 };
 
 export default ProductCart;
-

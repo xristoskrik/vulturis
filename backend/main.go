@@ -66,14 +66,9 @@ func main() {
 		r.Get("/orders", apiCfg.OrdersGetHandler)
 
 		r.Post("/products", apiCfg.ProductCreateHandler)
-		r.Get("/products", apiCfg.ProductGetHandler)
+		r.Get("/products", apiCfg.GetAllProductsHandler)
 		r.Put("/products", apiCfg.ProductUpdateHandler)
 		r.Delete("/products", apiCfg.ProductDeleteHandler)
-		
-		/*
-			r.Post("/users/login", apiCfg.LoginUserHandler)
-			r.Post("/users/logout", apiCfg.UserLogoutHandler)
-		*/
 
 	})
 
