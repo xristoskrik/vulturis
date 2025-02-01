@@ -27,7 +27,7 @@ const Home = () => {
         {randomProducts.map((product) => (
           <div key={product.id} className="product-card">
             <img
-              src={"https://picsum.photos/id/237/200/300"} // Assuming Image is an object with a `url` field
+              src={`http://localhost:8080/images/${product.image.String}`} // Assuming Image is an object with a `url` field
               alt={product.name}
               className="product-image"
             />
