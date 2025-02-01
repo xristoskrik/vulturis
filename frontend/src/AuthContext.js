@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { use } from "react";
 
 // Create a context
 const AuthContext = createContext();
@@ -12,10 +13,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
-  const login = (email) => {
+  const login = (userData) => {
     setIsLoggedIn(true);
-    setUser(email);
+    setUser(userData.email);
+    setUserData(userData);
   };
 
   const logout = () => {
@@ -54,7 +57,14 @@ export const AuthProvider = ({ children }) => {
       console.log("Full Response Data:", data);
 
       if (data.Email) {
-        login(data.Email); // Store user email in context
+        login({
+          email: data.Email,
+          name: data.Name,
+          surname: data.Surname,
+          phone: data.Phone,
+          address: data.Address,
+          mobile: data.Mobile,
+        }); // Store full user data in context
       }
     } catch (error) {
       console.error("Error:", error);
@@ -63,7 +73,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, user, login, logout, handleToken }}
+      value={{ isLoggedIn, user, login, logout, handleToken, userData }}
     >
       {children}
     </AuthContext.Provider>

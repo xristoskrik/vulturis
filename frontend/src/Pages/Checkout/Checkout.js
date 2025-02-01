@@ -4,11 +4,7 @@ import { useCart } from "../../CartContext";
 import { useAuth } from "../../AuthContext";
 import { useEffect } from "react";
 const Register = () => {
-  const { handleToken, user, isLoggedIn } = useAuth();
-
-  useEffect(() => {
-    handleToken(); // Automatically fetch user data on component mount
-  }, []);
+  const { handleToken, user, isLoggedIn, userData } = useAuth();
   const { cart, updateCartQuantity, removeFromCart } = useCart();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -20,6 +16,22 @@ const Register = () => {
   const [altAddress, setAltAddress] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState("home");
   const [coupon, setCoupon] = useState("");
+  useEffect(() => {
+    handleToken(); // Ensure token handling is done
+  }, []);
+
+  useEffect(() => {
+    console.log(user, isLoggedIn);
+    setEmail(user || ""); // Avoid setting undefined values
+
+    if (userData) {
+      setName(userData.name || "");
+      setSn(userData.surname || "");
+      setPhone(userData.phone || "");
+      setAddress(userData.address || "");
+      setMobile(userData.mobile || "");
+    }
+  }, [user, userData]);
 
   const totalCost = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -40,6 +52,7 @@ const Register = () => {
       mobile,
     };
     console.log("User Data:", user);
+    console.log("User cart:", cart);
   };
 
   return (
