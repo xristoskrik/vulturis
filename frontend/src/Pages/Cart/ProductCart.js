@@ -1,35 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../CartContext'; // Import Cart Context
-import './cart.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./cart.css";
+import { useCart } from "../../CartContext"; // Import Cart Context
+const ProductCart = (props) => {
+  const { id, name, price, image, slug } = props.data;
 
-const ProductCart = ({ data }) => {
-  const { id, name, price, image, slug } = data;
-  const { addToCart } = useCart(); // Get addToCart function from CartContext
-
-  // Handle the click event for the Add to Cart button
-  const handleAddToCart = () => {
+  // State to manage cart items
+  const [cart, setCart] = useState([]);
+  const { addToCart } = useCart();
+  // Add to Cart Handler
+  const addToCart2 = () => {
+    const product = { id, name, price, image, slug };
+    setCart((prevCart) => [...prevCart, product]); // Add product to the cart
     addToCart({ id, name, price, image, slug });
   };
 
   return (
     <div className="cart-container">
-      {/* Product Link */}
-      <Link to={`/product/${slug}`} className="product-link">
+      <Link to={`/product/${slug}`}>
         <img src={image} alt={name} className="cart-image" />
       </Link>
-
-      {/* Product Title */}
       <h3 className="cart-title">{name}</h3>
-
       <div className="cart-footer">
-        {/* Product Price */}
         <p className="cart-price">
-          ${price}
+          $<span>{price}</span>
         </p>
-
-        {/* Add to Cart Button */}
-        <button className="cart-button" onClick={handleAddToCart}>
+        <button className="cart-button" onClick={addToCart2}>
           Add to Cart
         </button>
       </div>
@@ -38,4 +34,3 @@ const ProductCart = ({ data }) => {
 };
 
 export default ProductCart;
-

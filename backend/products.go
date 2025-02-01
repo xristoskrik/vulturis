@@ -4,17 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
-	//"github.com/google/uuid"
 	_ "github.com/lib/pq"
-	//"github.com/xristoskrik/vulturis/auth"
 	"github.com/xristoskrik/vulturis/internal/database"
 )
 
-//	type ApiConfig struct {
-//		DB *database.Queries
-//	}
 func deref(s *string) string {
 	if s == nil {
 		return ""
@@ -25,176 +21,200 @@ func deref(s *string) string {
 func (cfg *ApiConfig) ProductCreateHandler(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
 		Name        string  `json:"name"`
+		Price       float64 `json:"price"`
+		Category    string  `json:"category"`
+		Image       string  `json:"image"`
 		Stock       int32   `json:"stock"`
 		Description *string `json:"description"`
+		Slug        string  `json:"slug"`
 	}
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
-	err := decoder.Decode(&params)
-
-	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid credentials", err)
+	if err := decoder.Decode(&params); err != nil {
+		RespondWithError(w, http.StatusBadRequest, "Invalid request payload", err)
 		return
 	}
 
-	//create product
+	// Wrap image string in sql.NullString
+	imageURL := sql.NullString{
+		String: params.Image,
+		Valid:  params.Image != "",
+	}
 
+	// Create the product
 	product, err := cfg.DB.CreateProduct(context.Background(), database.CreateProductParams{
-		Name:  params.Name,
-		Stock: params.Stock,
-		Description: sql.NullString{
-			String: deref(params.Description),
-			Valid:  params.Description != nil,
-		},
+		Name:        params.Name,
+		Price:       fmt.Sprintf("%.2f", params.Price),
+		Category:    params.Category,
+		Image:       imageURL, // Use the wrapped sql.NullString here
+		Stock:       params.Stock,
+		Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+		Slug:        params.Slug,
 	})
 	if err != nil {
 		RespondWithError(w, http.StatusConflict, "Product already exists", err)
 		return
 	}
 
-	//respond with created product
-	RespondWithJSON(w, 201, ("created Product " + product.Name))
+	RespondWithJSON(w, http.StatusCreated, product)
 }
 
 func (cfg *ApiConfig) ProductGetHandler(w http.ResponseWriter, r *http.Request) {
-	//needs id for parameters
+	action := r.URL.Query().Get("action")
 	type parameters struct {
 		Code int32  `json:"code"`
 		Name string `json:"name"`
 	}
-
-	action := r.URL.Query().Get("action")
-	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
-	err := decoder.Decode(&params)
-
-	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid product", err)
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&params); err != nil {
+		RespondWithError(w, http.StatusBadRequest, "Invalid request payload", err)
 		return
 	}
 
+	var product interface{}
+	var err error
+
 	if action == "code" {
-		product, err := cfg.DB.GetUserByCode(context.Background(), params.Code)
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusOK, product)
+		product, err = cfg.DB.GetProductById(context.Background(), params.Code) // Using sqlc-generated GetProductById method
 	} else if action == "name" {
-		product, err := cfg.DB.GetProduct(context.Background(), params.Name)
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusOK, product)
+		product, err = cfg.DB.GetProductBySlug(context.Background(), params.Name) // Using sqlc-generated GetProductBySlug method
 	}
 
+	if err != nil {
+		RespondWithError(w, http.StatusNotFound, "Product not found", err)
+		return
+	}
+	RespondWithJSON(w, http.StatusOK, product)
 }
 
-/*
- - - name: UpdateProduct :exec
- UPDATE products
- SET name = $1, stock = $2,description = $3
- WHERE product_code = $4;
-
- -- name: UpdateProductDescription :exec
- UPDATE products
- SET description = $1
- WHERE product_code = $2;
-
- -- name: UpdateProductName :exec
- UPDATE products
- SET name = $1
- WHERE product_code = $2;*/
-
 func (cfg *ApiConfig) ProductUpdateHandler(w http.ResponseWriter, r *http.Request) {
-	//needs email and password or id and email for parameters
+	action := r.URL.Query().Get("action")
 	type parameters struct {
 		Code        int32   `json:"code"`
 		Name        string  `json:"name"`
 		Stock       int32   `json:"stock"`
+		Price       float64 `json:"price"`
+		Category    string  `json:"category"`
+		Image       string  `json:"image"`
 		Description *string `json:"description"`
+		Slug        string  `json:"slug"`
 	}
-	action := r.URL.Query().Get("action")
-	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
-	err := decoder.Decode(&params)
-	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid product", err)
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&params); err != nil {
+		RespondWithError(w, http.StatusBadRequest, "Invalid request payload", err)
 		return
 	}
 
-	if action == "stock" {
-		_, err = cfg.DB.UpdateProductStock(context.Background(), database.UpdateProductStockParams{
-			ProductCode: params.Code,
-			Stock:       params.Stock,
-		})
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusAccepted, "Stock updated")
-		return
-	} else if action == "name" {
-		_, err = cfg.DB.UpdateProductName(context.Background(), database.UpdateProductNameParams{
-			ProductCode: params.Code,
-			Name:        params.Name,
-		})
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusAccepted, "Name updated")
-		return
-	} else if action == "description" {
-		_, err = cfg.DB.UpdateProductDescription(context.Background(), database.UpdateProductDescriptionParams{
-			ProductCode: params.Code,
-			Description: sql.NullString{
-				String: deref(params.Description),
-				Valid:  params.Description != nil,
-			},
-		})
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusAccepted, "Description updated")
-		return
-	} else {
-		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
-			ProductCode: params.Code,
-			Name:        params.Name,
-			Stock:       params.Stock,
-			Description: sql.NullString{
-				String: deref(params.Description),
-				Valid:  params.Description != nil,
-			},
-		})
-		if err != nil {
-			RespondWithError(w, http.StatusInternalServerError, "Cant find Product", err)
-			return
-		}
-		RespondWithJSON(w, http.StatusAccepted, "Product updated")
+	// Wrap image string in sql.NullString
+	imageURL := sql.NullString{
+		String: params.Image,
+		Valid:  params.Image != "",
 	}
+
+	var err error
+	switch action {
+	case "stock":
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	case "price":
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	case "category":
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	case "image":
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	case "slug":
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	default:
+		_, err = cfg.DB.UpdateProduct(context.Background(), database.UpdateProductParams{
+			Name:        params.Name,
+			Price:       fmt.Sprintf("%.2f", params.Price),
+			Category:    params.Category,
+			Image:       imageURL,
+			Stock:       params.Stock,
+			Description: sql.NullString{String: deref(params.Description), Valid: params.Description != nil},
+			Slug:        params.Slug,
+			ID:          params.Code, // Corrected to ID
+		})
+	}
+
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Failed to update product", err)
+		return
+	}
+	RespondWithJSON(w, http.StatusAccepted, "Product updated")
 }
 
 func (cfg *ApiConfig) ProductDeleteHandler(w http.ResponseWriter, r *http.Request) {
-	//needs email for parameters
 	type parameters struct {
 		Code int32 `json:"code"`
 	}
-	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
-	err := decoder.Decode(&params)
-	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid code", err)
-		return
-	}
-	err = cfg.DB.DeleteProductByCode(context.Background(), params.Code)
-	if err != nil {
-		RespondWithError(w, http.StatusInternalServerError, "Cant find product", err)
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&params); err != nil {
+		RespondWithError(w, http.StatusBadRequest, "Invalid request payload", err)
 		return
 	}
 
-	RespondWithJSON(w, http.StatusNoContent, "Successfully deleted product")
+	// Use DeleteProductById method generated by sqlc
+	if err := cfg.DB.DeleteProductById(context.Background(), params.Code); err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Failed to delete product", err)
+		return
+	}
+	RespondWithJSON(w, http.StatusNoContent, nil)
+}
+
+func (cfg *ApiConfig) GetAllProductsHandler(w http.ResponseWriter, r *http.Request) {
+	// Use GetAllProducts method generated by sqlc
+	products, err := cfg.DB.GetAllProducts(context.Background())
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, "Failed to retrieve products", err)
+		return
+	}
+	RespondWithJSON(w, http.StatusOK, products)
 }

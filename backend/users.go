@@ -25,7 +25,11 @@ func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) 
 	type parameters struct {
 		Password string `json:"password"`
 		Email    string `json:"email"`
-		Username string `json:"username"`
+		Name string `json:"name"`
+		Surname string `json:"surname"`
+		Phone string `json:"phone"`
+		Mobile string `json:"mobile"`
+		Address string `json:"address"`
 	}
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
@@ -44,6 +48,11 @@ func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) 
 	user, err := cfg.DB.CreateUser(context.Background(), database.CreateUserParams{
 		HashedPassword: hashed,
 		Email:          params.Email,
+		Name:           params.Name,
+		Surname:        params.Surname,
+		Phone:          params.Phone,
+		Mobile:         params.Mobile,
+		Address:        params.Address,
 	})
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, "Can't create user", err)
@@ -55,6 +64,11 @@ func (cfg *ApiConfig) UserCreateHandler(w http.ResponseWriter, r *http.Request) 
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 		Email:     user.Email,
+		Name:      user.Name,
+		Surname:   user.Surname,
+		Phone:     user.Phone,
+		Mobile:    user.Mobile,
+		Address:   user.Address,
 	})
 }
 
@@ -211,8 +225,13 @@ func (cfg *ApiConfig) UserloginHandler(w http.ResponseWriter, r *http.Request) {
 	})
 	RespondWithJSON(w, 200, response{
 		User: database.User{
-			ID:    user.ID,
-			Email: user.Email,
+				ID:    user.ID,
+				Email: user.Email,
+				Phone: user.Phone,
+				Mobile: user.Mobile,
+				Address: user.Address,
+				Name: user.Name,
+				Surname: user.Surname,			
 		},
 		Token:        accessToken,
 		RefreshToken: refreshToken,
@@ -253,6 +272,11 @@ func (cfg *ApiConfig) UserAuthenticateHandler(w http.ResponseWriter, r *http.Req
 	RespondWithJSON(w, http.StatusOK, database.User{
 		ID:    user.ID,
 		Email: user.Email,
+		Phone: user.Phone,
+		Mobile: user.Mobile,
+		Address: user.Address,
+		Name: user.Name,
+		Surname: user.Surname,
 	})
 
 }

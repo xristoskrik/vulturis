@@ -54,6 +54,29 @@ func main() {
 	})
 	r.Use(cors.Handler)
 
+	// Serve static files (images) from the "images" folder
+	r.Handle("/images/*", http.StripPrefix("/images/", http.FileServer(http.Dir("./images"))))
+
+	// Custom handler for serving images with automatic extension
+	r.Get("/images/{filename}", func(w http.ResponseWriter, r *http.Request) {
+		// Get the filename from the URL path (e.g., LegendaryLands)
+		filename := chi.URLParam(r, "filename")
+		// Define possible image extensions
+		extensions := []string{".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp",".jfif"}
+
+		// Iterate over possible extensions and check if the file exists
+		for _, ext := range extensions {
+			filePath := fmt.Sprintf("./images/%s%s", filename, ext)
+			if _, err := os.Stat(filePath); err == nil {
+				// File exists, serve it
+				http.ServeFile(w, r, filePath)
+				return
+			}
+		}
+
+		// If no file is found, return 404
+		http.Error(w, "File not found", http.StatusNotFound)
+	})
 	//endpoints
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/users", apiCfg.UserCreateHandler)
@@ -66,19 +89,12 @@ func main() {
 		r.Get("/orders", apiCfg.OrdersGetHandler)
 
 		r.Post("/products", apiCfg.ProductCreateHandler)
-		r.Get("/products", apiCfg.ProductGetHandler)
+		r.Get("/products", apiCfg.GetAllProductsHandler)
 		r.Put("/products", apiCfg.ProductUpdateHandler)
 		r.Delete("/products", apiCfg.ProductDeleteHandler)
-		
-		/*
-			r.Post("/users/login", apiCfg.LoginUserHandler)
-			r.Post("/users/logout", apiCfg.UserLogoutHandler)
-		*/
-
 	})
 
 	//serve
 	log.Printf("on port: %s\n", port)
 	log.Fatal(http.ListenAndServe(port, r))
-
 }

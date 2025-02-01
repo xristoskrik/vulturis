@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./checkout.css";
 import { useCart } from "../../CartContext";
 import { useAuth } from "../../AuthContext";
-import { useEffect } from "react";
-const Register = () => {
-  const { handleToken, user, isLoggedIn } = useAuth();
 
-  useEffect(() => {
-    handleToken(); // Automatically fetch user data on component mount
-  }, []);
+const Register = () => {
+  const { handleToken, user, isLoggedIn, userData } = useAuth();
   const { cart, updateCartQuantity, removeFromCart } = useCart();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -21,10 +17,28 @@ const Register = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("home");
   const [coupon, setCoupon] = useState("");
 
+  useEffect(() => {
+    handleToken(); // Ensure token handling is done
+  }, []);
+
+  useEffect(() => {
+    console.log(user, isLoggedIn);
+    setEmail(user || ""); // Avoid setting undefined values
+
+    if (userData) {
+      setName(userData.name || "");
+      setSn(userData.surname || "");
+      setPhone(userData.phone || "");
+      setAddress(userData.address || "");
+      setMobile(userData.mobile || "");
+    }
+  }, [user, userData]);
+
   const totalCost = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + (parseFloat(item.price) || 0) * item.quantity, // Ensure price is a number
     0
   );
+
   const shippingCost = deliveryMethod === "store" ? 0 : 3.0;
   const vat = totalCost * 0.21;
   const finalTotal = totalCost + shippingCost + vat;
@@ -40,6 +54,7 @@ const Register = () => {
       mobile,
     };
     console.log("User Data:", user);
+    console.log("User cart:", cart);
   };
 
   return (
@@ -68,7 +83,8 @@ const Register = () => {
                 />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
-                  <p>${product.price.toFixed(2)}</p>
+                  <p>${(parseFloat(product.price) || 0).toFixed(2)}</p>{" "}
+                  {/* Ensure price is a valid number */}
                   <div className="quantity-controls">
                     <button
                       onClick={() =>
@@ -123,10 +139,13 @@ const Register = () => {
           </label>
         </div>
         <div className="total-cost">
-          <h3>Subtotal: ${totalCost.toFixed(2)}</h3>
-          <h3>VAT: ${vat.toFixed(2)}</h3>
-          <h3>Shipping: ${shippingCost.toFixed(2)}</h3>
-          <h2>Final Total: ${finalTotal.toFixed(2)}</h2>
+          <h3>Subtotal: ${totalCost.toFixed(2)}</h3>{" "}
+          {/* Ensure totalCost is a number */}
+          <h3>VAT: ${vat.toFixed(2)}</h3> {/* Ensure vat is a number */}
+          <h3>Shipping: ${shippingCost.toFixed(2)}</h3>{" "}
+          {/* Ensure shippingCost is a number */}
+          <h2>Final Total: ${finalTotal.toFixed(2)}</h2>{" "}
+          {/* Ensure finalTotal is a number */}
         </div>
       </div>
 
