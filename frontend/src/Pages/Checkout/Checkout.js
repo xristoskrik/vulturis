@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
-import './checkout.css';
-import { useCart } from '../../CartContext';
-
+import React, { useState } from "react";
+import "./checkout.css";
+import { useCart } from "../../CartContext";
+import { useAuth } from "../../AuthContext";
+import { useEffect } from "react";
 const Register = () => {
-  const { cart, updateCartQuantity, removeFromCart } = useCart();
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [surname, setSn] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [shipToDifferent, setShipToDifferent] = useState(false);
-  const [altAddress, setAltAddress] = useState('');
-  const [deliveryMethod, setDeliveryMethod] = useState('home');
-  const [coupon, setCoupon] = useState('');
+  const { handleToken, user, isLoggedIn } = useAuth();
 
-  const totalCost = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const shippingCost = deliveryMethod === 'store' ? 0 : 3.00;
+  useEffect(() => {
+    handleToken(); // Automatically fetch user data on component mount
+  }, []);
+  const { cart, updateCartQuantity, removeFromCart } = useCart();
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSn] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [shipToDifferent, setShipToDifferent] = useState(false);
+  const [altAddress, setAltAddress] = useState("");
+  const [deliveryMethod, setDeliveryMethod] = useState("home");
+  const [coupon, setCoupon] = useState("");
+
+  const totalCost = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const shippingCost = deliveryMethod === "store" ? 0 : 3.0;
   const vat = totalCost * 0.21;
   const finalTotal = totalCost + shippingCost + vat;
 
@@ -30,7 +39,7 @@ const Register = () => {
       address: shipToDifferent ? altAddress : address,
       mobile,
     };
-    console.log('User Data:', user);
+    console.log("User Data:", user);
   };
 
   return (
@@ -52,26 +61,34 @@ const Register = () => {
           {cart.length > 0 ? (
             cart.map((product) => (
               <div className="cart-item" key={product.id}>
-                <img src={product.image} alt={product.name} className="cart-item-image" />
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="cart-item-image"
+                />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
                   <p>${product.price.toFixed(2)}</p>
                   <div className="quantity-controls">
-                    <button 
-                      onClick={() => updateCartQuantity(product.id, product.quantity - 1)} 
+                    <button
+                      onClick={() =>
+                        updateCartQuantity(product.id, product.quantity - 1)
+                      }
                       disabled={product.quantity <= 1}
                     >
                       -
                     </button>
                     <span>{product.quantity}</span>
-                    <button 
-                      onClick={() => updateCartQuantity(product.id, product.quantity + 1)}
+                    <button
+                      onClick={() =>
+                        updateCartQuantity(product.id, product.quantity + 1)
+                      }
                     >
                       +
                     </button>
                   </div>
-                  <button 
-                    onClick={() => removeFromCart(product.id)} 
+                  <button
+                    onClick={() => removeFromCart(product.id)}
                     className="remove-item-button"
                   >
                     Remove
@@ -90,18 +107,18 @@ const Register = () => {
             <input
               type="radio"
               value="home"
-              checked={deliveryMethod === 'home'}
-              onChange={() => setDeliveryMethod('home')}
-            /> 
+              checked={deliveryMethod === "home"}
+              onChange={() => setDeliveryMethod("home")}
+            />
             Home Delivery ($3.00)
           </label>
           <label>
             <input
               type="radio"
               value="store"
-              checked={deliveryMethod === 'store'}
-              onChange={() => setDeliveryMethod('store')}
-            /> 
+              checked={deliveryMethod === "store"}
+              onChange={() => setDeliveryMethod("store")}
+            />
             Store Pickup (Free)
           </label>
         </div>
@@ -117,7 +134,9 @@ const Register = () => {
         <h1 className="title">Shipment Details</h1>
         <form onSubmit={handleSubmit} className="form">
           <div className="form-group">
-            <label htmlFor="email" className="label">Email <span className="required">*</span>:</label>
+            <label htmlFor="email" className="label">
+              Email <span className="required">*</span>:
+            </label>
             <input
               type="email"
               id="email"
@@ -129,7 +148,9 @@ const Register = () => {
           </div>
           <div className="form-group-row">
             <div className="form-group">
-              <label htmlFor="name" className="label">Name <span className="required">*</span>:</label>
+              <label htmlFor="name" className="label">
+                Name <span className="required">*</span>:
+              </label>
               <input
                 type="text"
                 id="name"
@@ -140,7 +161,9 @@ const Register = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="surname" className="label">Surname <span className="required">*</span>:</label>
+              <label htmlFor="surname" className="label">
+                Surname <span className="required">*</span>:
+              </label>
               <input
                 type="text"
                 id="surname"
@@ -152,7 +175,9 @@ const Register = () => {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="phone" className="label">Phone <span className="required">*</span>:</label>
+            <label htmlFor="phone" className="label">
+              Phone <span className="required">*</span>:
+            </label>
             <input
               type="tel"
               id="phone"
@@ -163,7 +188,9 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="address" className="label">Address <span className="required">*</span>:</label>
+            <label htmlFor="address" className="label">
+              Address <span className="required">*</span>:
+            </label>
             <input
               type="text"
               id="address"
@@ -185,7 +212,9 @@ const Register = () => {
           </div>
           {shipToDifferent && (
             <div className="form-group">
-              <label htmlFor="altAddress" className="label">Alternative Address:</label>
+              <label htmlFor="altAddress" className="label">
+                Alternative Address:
+              </label>
               <input
                 type="text"
                 id="altAddress"
@@ -196,7 +225,9 @@ const Register = () => {
               />
             </div>
           )}
-          <button type="submit" className="button">Submit</button>
+          <button type="submit" className="button">
+            Submit
+          </button>
         </form>
       </div>
     </div>
@@ -204,4 +235,3 @@ const Register = () => {
 };
 
 export default Register;
-
