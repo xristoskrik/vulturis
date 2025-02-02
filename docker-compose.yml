@@ -3,24 +3,35 @@ services:
     image: postgres:latest
     container_name: my_postgres
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: vulturis
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
   app:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_URL: postgres://root:12345678@postgres:5432/vulturis?sslmode=disable
+      DB_URL: ${DB_URL_DOCKER}
+      PLATFORM: ${PLATFORM}
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       - postgres
     ports:
       - "8080:8080"
-
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile-frontend 
+    working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend
+    command: bash -c "npm start" 
+    ports:
+      - "3000:3000" 
 volumes:
   pgdata:
+

@@ -1,0 +1,20 @@
+# Use Node.js official image as the base
+FROM node:latest
+
+# Set working directory for frontend code
+WORKDIR /frontend
+
+# Copy package.json and package-lock.json for better caching of npm install
+COPY frontend/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the frontend code
+COPY frontend/ ./
+
+# Expose port for frontend app
+EXPOSE 3000
+
+# Run the frontend application
+CMD ["npm", "start"]
