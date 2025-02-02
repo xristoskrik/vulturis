@@ -18,9 +18,15 @@ func main() {
 	const port = ":8080"
 	//loading environment variables
 	godotenv.Load()
-
+	var dbURL string
 	//loading the secret key and database url
-	dbURL := os.Getenv("DB_URL")
+	platform :=  os.Getenv("PLATFORM")
+	if platform == "dev"{
+		dbURL = os.Getenv("DB_URL")
+	}else{
+		dbURL = os.Getenv("TEST_DB_URL")
+	}
+	
 	secret := os.Getenv("SECRET_KEY")
 	
 	//open postgres db
