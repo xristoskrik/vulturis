@@ -11,6 +11,9 @@ COPY backend/go.sum ./
 # Download dependencies early for caching
 RUN go mod download
 
+# Install PostgreSQL client utilities (for psql and pg_isready)
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Copy the rest of the application code
 COPY backend/ ./
 
@@ -29,14 +32,8 @@ COPY start.sh /start.sh
 # Ensure the start.sh script is executable
 RUN chmod +x /start.sh
 
-COPY backend/ ./
-
-# Build the application
-RUN go build -o main .
+# Expose the application port
+EXPOSE 8080
 
 # Set the start.sh script as the entrypoint
 ENTRYPOINT ["/start.sh"]
-
-
-# Expose the application port
-EXPOSE 8080

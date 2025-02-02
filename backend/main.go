@@ -18,9 +18,19 @@ func main() {
 	const port = ":8080"
 	//loading environment variables
 	godotenv.Load()
-
+	var dbURL string
+	var db_str string
 	//loading the secret key and database url
-	dbURL := os.Getenv("DB_URL")
+	platform :=  os.Getenv("PLATFORM")
+	if platform == "dev"{
+		dbURL = os.Getenv("DB_URL")
+		db_str = "dev"
+	}else{
+		dbURL = os.Getenv("TEST_DB_URL")
+		db_str = "test"
+	}
+
+	
 	secret := os.Getenv("SECRET_KEY")
 	
 	//open postgres db
@@ -29,6 +39,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("connected to database:" , db_str)
 
 	defer db.Close()
 
