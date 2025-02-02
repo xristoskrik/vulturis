@@ -25,13 +25,12 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: dockerfile-frontend 
+      dockerfile: dockerfile-frontend
     working_dir: /frontend
     volumes:
       - ./frontend:/frontend
-    command: bash -c "npm start" 
+    command: bash -c "npm install && npm start"
     ports:
-      - "3000:3000" 
+      - "3000:3000"
 volumes:
   pgdata:
-

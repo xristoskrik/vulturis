@@ -3,9 +3,13 @@ import "./Home.css";
 import { useAuth } from "../../AuthContext";
 import { useProducts } from "./products"; // Ensure this path is correct
 import ProductCart from "../Cart/ProductCart"; // Import ProductCart component
-
+import { useEffect } from "react";
 const Home = () => {
-  useAuth();
+  const { handleToken, user, isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    handleToken(); // Automatically fetch user data on component mount
+  }, []);
 
   // Use the custom hook to fetch products
   const { products, loading, error } = useProducts();
