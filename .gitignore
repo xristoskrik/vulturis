@@ -3,6 +3,3 @@
 backend/.env
 backend/out
 .env
-frontend/photos
-frontend/public/*.png
-frontend/public/*.jpg
