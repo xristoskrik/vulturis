@@ -7,7 +7,7 @@
   margin: 50px auto;
   padding: 20px;
   max-width: 1200px;
-  background-color: #f9f9f9;
+  background-color: #f0f8ff; /* Light blue background */
   height: 100%;
 }
 
@@ -16,10 +16,10 @@
   flex: 1;
   max-width: 600px;
   padding: 20px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #add8e6; /* Light blue border */
   max-height: 700px;
   overflow-y: auto;
 }
@@ -28,10 +28,10 @@
 .cart-container {
   flex: 1;
   max-width: 400px;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #add8e6; /* Light blue border */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-height: 700px;
   overflow-y: auto;
@@ -41,7 +41,7 @@
 .cart-title {
   margin-bottom: 15px;
   font-size: 1.5rem;
-  color: #333;
+  color: #1e3d58; /* Darker blue for title */
   text-align: center;
 }
 
@@ -72,7 +72,7 @@
 
 /* Global Typography */
 h3 {
-  color: black;
+  color: #1e3d58; /* Dark blue for headings */
   text-align: center;
   font-size: 1.2rem;
 }
@@ -100,7 +100,7 @@ p {
   display: block;
   margin-bottom: 5px;
   font-size: 1rem;
-  color: #555;
+  color: #1e3d58; /* Dark blue for labels */
 }
 
 .input {
@@ -108,28 +108,29 @@ p {
   padding: 10px;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #add8e6; /* Light blue border */
   box-sizing: border-box;
 }
 
+/* Button Styles */
 .button {
   padding: 12px 15px;
   font-size: 1rem;
   border-radius: 20px;
   border: none;
-  background-color: #28a745; /* Green */
+  background-color: #1e3d58; /* Dark Blue */
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #218838; /* Darker Green */
+  background-color: #15608c; /* Lighter Dark Blue */
 }
 
 .quantity-controls button {
-  background-color: #28a745;
-  border: 1px solid #218838;
+  background-color: #1e3d58;
+  border: 1px solid #15608c;
   padding: 5px 10px;
   font-size: 16px;
   cursor: pointer;
@@ -139,17 +140,17 @@ p {
 }
 
 .quantity-controls button:hover {
-  background-color: #218838;
+  background-color: #15608c;
 }
 
 .quantity-controls button:disabled {
-  background-color: #a5d6a7; /* Light Green for Disabled */
+  background-color: #b0c9d6; /* Light Blue for Disabled */
   cursor: not-allowed;
 }
 
-/* Remove Item Button - Dark Green */
+/* Remove Item Button - Blue */
 .remove-item-button {
-  background-color: #155724;
+  background-color: #005b6d; /* Deep Blue */
   color: white;
   padding: 8px 12px;
   border: none;
@@ -160,11 +161,11 @@ p {
 }
 
 .remove-item-button:hover {
-  background-color: #0e3d17;
+  background-color: #00404f; /* Darker Blue */
 }
 
 /* Total Cost Styling */
-total-cost {
+.total-cost {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,8 +173,10 @@ total-cost {
   font-weight: bold;
   text-align: center;
   padding: 15px 0;
-  border-top: 2px solid #ddd;
+  border-top: 2px solid #add8e6; /* Light Blue border */
   margin-top: 20px;
+  background-color: #e0f7fa; /* Light cyan background for the cost area */
+  border-radius: 8px;
 }
 
 /* Responsive Design */
@@ -188,6 +191,8 @@ total-cost {
     max-width: 100%;
   }
 }
+
+/* Required Star (Red) */
 .required-star {
   color: red;
   margin-left: 3px;
