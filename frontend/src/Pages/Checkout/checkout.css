@@ -1,3 +1,4 @@
+/* Container for the entire Checkout and Cart section */
 .checkout-container {
   display: flex;
   justify-content: space-between;
@@ -6,36 +7,41 @@
   margin: 0;
   padding: 20px;
   max-width: 100vw;
-  width: 100vw;
+  width: 90vw;
   height: 100vh; /* Full viewport height */
   background-color: #f0f8ff;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden; /* Prevent global scrolling */
 }
 
 /* Checkout Form Styles */
 .checkout-form {
   flex: 1;
-  max-width: 600px;
+  max-width: 70%; /* Adjust width as needed */
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  border: 1px solid #add8e6; /* Light blue border */
-  max-height: 700px;
-  overflow-y: auto;
+  border: 1px solid #add8e6;
+  height: 50%;
+  overflow-y: auto; /* Enable scrolling for overflow in form */
 }
+
 
 /* Cart Container */
 .cart-container {
-  flex: 1;
+  flex: 4;
   max-width: 40%; /* Adjust width as needed */
+  height: 100; /* Full height */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #add8e6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  overflow: hidden; /* Prevent scrolling */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items from the top */
+  box-sizing: border-box;
+  overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 /* Cart Title */
@@ -51,6 +57,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto; /* Handle overflow for cart items */
 }
 
 .cart-item {
@@ -187,17 +194,10 @@ p {
     height: 100vh;
   }
 
-
-.checkout-form {
-  flex: 1;
-  max-width: 60%; /* Adjust width as needed */
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  border: 1px solid #add8e6;
-  height: 100%;
-  overflow: hidden; /* Prevent scrolling */
+  .checkout-form,
+  .cart-container {
+    max-width: 100%;
+  }
 }
 
 /* Required Star (Red) */
@@ -244,11 +244,5 @@ p {
 
 .coupon button:hover {
   background-color: #15608c; /* Lighter Dark Blue */
-}
-  .checkout-form,
-  .cart-container {
-    max-width: 100%;
-    height: 50%; /* Split the screen for mobile */
-  }
 }
 
