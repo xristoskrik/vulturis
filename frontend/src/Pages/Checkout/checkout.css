@@ -30,7 +30,7 @@
 .cart-container {
   flex: 1; /* Ensure cart takes equal space with the checkout form */
   max-width: 50%; /* Adjust width as needed */
-  height: 100vh; /* Make the cart container fill the full viewport height */
+  height: 100%; /* Make the cart container fill the full viewport height */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
