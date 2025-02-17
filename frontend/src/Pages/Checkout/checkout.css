@@ -3,38 +3,43 @@
   display: flex;
   justify-content: space-between;
   gap: 30px;
-  flex-wrap: wrap;
-  margin: 50px auto;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  margin: 0;
   padding: 20px;
-  max-width: 1200px;
-  background-color: #f0f8ff; /* Light blue background */
-  height: 100%;
+  max-width: 100vw;
+  width: 90vw;
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f8ff;
+  overflow: hidden; /* Prevent global scrolling */
 }
 
 /* Checkout Form Styles */
 .checkout-form {
-  flex: 1;
-  max-width: 600px;
+  flex: 1; /* Ensure checkout form and cart take equal space */
+  max-width: 50%; /* Adjust width as needed */
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  border: 1px solid #add8e6; /* Light blue border */
-  max-height: 700px;
-  overflow-y: auto;
+  border: 1px solid #add8e6;
+  height: 50%;
+  overflow-y: auto; /* Enable scrolling for overflow in form */
 }
 
 /* Cart Container */
 .cart-container {
-  flex: 1;
-  max-width: 400px;
+  flex: 1; /* Ensure cart takes equal space with the checkout form */
+  max-width: 50%; /* Adjust width as needed */
+  height: 100vh; /* Make the cart container fill the full viewport height */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #add8e6; /* Light blue border */
+  border: 1px solid #add8e6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 700px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items from the top */
+  overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 /* Cart Title */
@@ -50,6 +55,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto; /* Handle overflow for cart items */
 }
 
 .cart-item {
@@ -70,12 +76,21 @@
   flex: 1;
 }
 
-/* Global Typography */
-h3 {
+
+.special-h3 {
   color: #1e3d58; /* Dark blue for headings */
   text-align: center;
   font-size: 1.2rem;
 }
+
+.special-h2 {
+  color: #000000; /* Dark blue for headings */
+  text-align: center;
+  font-size: 2.5 rem;
+  font-weight:bold;
+ 
+}
+
 
 p {
   color: #333; /* Ensure visibility */
@@ -167,23 +182,25 @@ p {
 /* Total Cost Styling */
 .total-cost {
   display: flex;
+  flex-direction: column; /* Stack the items vertically */
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
-  font-weight: bold;
   text-align: center;
   padding: 15px 0;
   border-top: 2px solid #add8e6; /* Light Blue border */
   margin-top: 20px;
   background-color: #e0f7fa; /* Light cyan background for the cost area */
   border-radius: 8px;
+  gap: 0px; /* Add space between each <h3> element */
 }
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .checkout-container {
     flex-direction: column;
-    gap: 20px;
+    height: 100vh;
   }
 
   .checkout-form,
@@ -196,4 +213,44 @@ p {
 .required-star {
   color: red;
   margin-left: 3px;
+}
+
+
+/* Coupon Section */
+.coupon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background-color: #e0f7fa; /* Light cyan background */
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #add8e6; /* Light blue border */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.coupon input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #add8e6;
+  border-radius: 4px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.coupon button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #1e3d58; /* Dark Blue */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.coupon button:hover {
+  background-color: #15608c; /* Lighter Dark Blue */
 }
