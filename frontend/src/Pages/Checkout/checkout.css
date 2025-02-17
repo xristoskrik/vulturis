@@ -1,14 +1,15 @@
-/* Container for the entire Checkout and Cart section */
 .checkout-container {
   display: flex;
   justify-content: space-between;
   gap: 30px;
-  flex-wrap: wrap;
-  margin: 50px auto;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  margin: 0;
   padding: 20px;
-  max-width: 1200px;
-  background-color: #f0f8ff; /* Light blue background */
-  height: 100%;
+  max-width: 100vw;
+  width: 100vw;
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f8ff;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Checkout Form Styles */
@@ -27,14 +28,14 @@
 /* Cart Container */
 .cart-container {
   flex: 1;
-  max-width: 400px;
+  max-width: 40%; /* Adjust width as needed */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #add8e6; /* Light blue border */
+  border: 1px solid #add8e6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 700px;
-  overflow-y: auto;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Cart Title */
@@ -183,13 +184,20 @@ p {
 @media (max-width: 768px) {
   .checkout-container {
     flex-direction: column;
-    gap: 20px;
+    height: 100vh;
   }
 
-  .checkout-form,
-  .cart-container {
-    max-width: 100%;
-  }
+
+.checkout-form {
+  flex: 1;
+  max-width: 60%; /* Adjust width as needed */
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #add8e6;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Required Star (Red) */
@@ -197,3 +205,50 @@ p {
   color: red;
   margin-left: 3px;
 }
+
+
+/* Coupon Section */
+.coupon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background-color: #e0f7fa; /* Light cyan background */
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #add8e6; /* Light blue border */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.coupon input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #add8e6;
+  border-radius: 4px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.coupon button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #1e3d58; /* Dark Blue */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.coupon button:hover {
+  background-color: #15608c; /* Lighter Dark Blue */
+}
+  .checkout-form,
+  .cart-container {
+    max-width: 100%;
+    height: 50%; /* Split the screen for mobile */
+  }
+}
+
