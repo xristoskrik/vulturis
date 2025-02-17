@@ -15,8 +15,8 @@
 
 /* Checkout Form Styles */
 .checkout-form {
-  flex: 1;
-  max-width: 70%; /* Adjust width as needed */
+  flex: 1; /* Ensure checkout form and cart take equal space */
+  max-width: 50%; /* Adjust width as needed */
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -26,12 +26,11 @@
   overflow-y: auto; /* Enable scrolling for overflow in form */
 }
 
-
 /* Cart Container */
 .cart-container {
-  flex: 4;
-  max-width: 40%; /* Adjust width as needed */
-  height: 100; /* Full height */
+  flex: 1; /* Ensure cart takes equal space with the checkout form */
+  max-width: 50%; /* Adjust width as needed */
+  height: 100vh; /* Make the cart container fill the full viewport height */
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
@@ -40,7 +39,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align items from the top */
-  box-sizing: border-box;
   overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
@@ -78,12 +76,21 @@
   flex: 1;
 }
 
-/* Global Typography */
-h3 {
+
+.special-h3 {
   color: #1e3d58; /* Dark blue for headings */
   text-align: center;
   font-size: 1.2rem;
 }
+
+.special-h2 {
+  color: #000000; /* Dark blue for headings */
+  text-align: center;
+  font-size: 2.5 rem;
+  font-weight:bold;
+ 
+}
+
 
 p {
   color: #333; /* Ensure visibility */
@@ -175,17 +182,19 @@ p {
 /* Total Cost Styling */
 .total-cost {
   display: flex;
+  flex-direction: column; /* Stack the items vertically */
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
-  font-weight: bold;
   text-align: center;
   padding: 15px 0;
   border-top: 2px solid #add8e6; /* Light Blue border */
   margin-top: 20px;
   background-color: #e0f7fa; /* Light cyan background for the cost area */
   border-radius: 8px;
+  gap: 0px; /* Add space between each <h3> element */
 }
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

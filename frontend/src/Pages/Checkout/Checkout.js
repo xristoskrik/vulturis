@@ -64,7 +64,7 @@ const Register = () => {
         <div className="coupon">
           <input
             type="text"
-            placeholder="Enter Coupon Code"
+            placeholder="Enter Coupon Code or Giftcard"
             value={coupon}
             onChange={(e) => setCoupon(e.target.value)}
           />
@@ -139,12 +139,12 @@ const Register = () => {
           </label>
         </div>
         <div className="total-cost">
-          <h3>Subtotal: ${totalCost.toFixed(2)}</h3>{" "}
+          <h3 className="special-h3">Subtotal: ${totalCost.toFixed(2) }</h3>{" "}
           {/* Ensure totalCost is a number */}
-          <h3>VAT: ${vat.toFixed(2)}</h3> {/* Ensure vat is a number */}
-          <h3>Shipping: ${shippingCost.toFixed(2)}</h3>{" "}
+           <h3 className="special-h3">VAT: ${vat.toFixed(2)}</h3> {/* Ensure vat is a number */}
+           <h3 className="special-h3">Shipping: ${shippingCost.toFixed(2) }</h3>{" "}
           {/* Ensure shippingCost is a number */}
-          <h2>Final Total: ${finalTotal.toFixed(2)}</h2>{" "}
+           <h2 className="special-h2">Final Total: ${finalTotal.toFixed(2) }</h2>{" "}
           {/* Ensure finalTotal is a number */}
         </div>
       </div>
