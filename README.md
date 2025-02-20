@@ -41,10 +41,11 @@ Welcome to **Vulturis**, an advanced e-commerce platform for book lovers! This p
 
 Ensure you have the following installed:
 
-- Docker & Docker Compose
-- Go
-- Node.js & npm/yarn
-- PostgreSQL
+- [Docker & Docker Compose](https://www.docker.com/)
+- [Go](https://github.com/golang/go)
+- [Node.js](https://nodejs.org/en) & npm/yarn
+- [PostgreSQL](https://www.postgresql.org/)
+- [Goose](https://github.com/pressly/goose)
 
 ### Steps to Run
 
@@ -62,30 +63,35 @@ Ensure you have the following installed:
    PLATFORM="test"
    SECRET_KEY="SECRET"
 
-   to generate secret openssl rand -hex 16 or 32 or 64
    ```
-   then you install go,postgres and goose
+   to generate secret
 
-   you create a database vulturis with psql and then
+   ```sh 
+   openssl rand -hex 16 or 32 or 64
+
+   ```
+   Create a Database called vulturis using psSQL using 
    ```sh
    CREATE DATABASE vulturis
-   also for the test database
-   CREATE DATABASE vulturistest
-  ```
-   you go to sql/schema and do
-   ```sh
-   goose postgres "postgres://exampleuser:@localhost:5432/vulturistest" or goose postgres "postgres://exampleuser:@localhost:5432/vulturis"
    ```
-   after you are sure migrations are ok go to backend folder and do 
+   also for the test database
+   ```sh
+   CREATE DATABASE vulturistest
+   ```
+   Then prooceed to  vulturis/sql/schema and do
+   ```sh
+   goose postgres "postgres://exampleuser:@localhost:5432/vulturistest" 
+   and
+   goose postgres "postgres://exampleuser:@localhost:5432/vulturis"
+   ```
+   After you are sure migrations are completed , go to vulturis/backend and do 
    ```sh
    chmod +x ./run.sh
    ```
-   and then run it using
+   And then run it using
    ```sh
    ./run.sh
    ```
-   and then you run ./run.sh which will default to test database and it is equal to ./run.sh test
-   or you can run ./run.sh dev for the dev database
 
    
 
@@ -94,6 +100,7 @@ Ensure you have the following installed:
    cd vulturis/frontend
    npm install  # or yarn install
    npm run dev  # or yarn dev
+   npm start    # or yarn start
    ```
 5. Run with Docker (optional):
 
@@ -107,12 +114,14 @@ Ensure you have the following installed:
     POSTGRES_DB="vulturis"
 
    to generate secret openssl rand -hex 16 or 32 or 64
-
-   and just do docker compose up -d
-
-   both frontend,backend and postgres will work but if you are on windows you might have problems with networks/firewall and frontend wont load.
-
    ```
+
+   and just do 
+   ```sh
+   docker compose up -d (Be careful of docker's version the command changes)
+   ```
+   Both frontend,backend and postgres will work but if you are on windows you might have problems with networks/firewall and frontend will not load.
+
 
 ## 📬 Contact
 
