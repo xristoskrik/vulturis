@@ -63,29 +63,39 @@ Ensure you have the following installed:
    SECRET_KEY="SECRET"
 
    to generate secret openssl rand -hex 16 or 32 or 64
-
+   ```
    then you install go,postgres and goose
 
    you create a database vulturis with psql and then
+   ```sh
    CREATE DATABASE vulturis
    also for the test database
    CREATE DATABASE vulturistest
-
+  ```
    you go to sql/schema and do
+   ```sh
    goose postgres "postgres://exampleuser:@localhost:5432/vulturistest" or goose postgres "postgres://exampleuser:@localhost:5432/vulturis"
-
-   after you are sure migrations are ok go to backend folder and do chmod +x ./run.sh
+   ```
+   after you are sure migrations are ok go to backend folder and do 
+   ```sh
+   chmod +x ./run.sh
+   ```
+   and then run it using
+   ```sh
+   ./run.sh
+   ```
    and then you run ./run.sh which will default to test database and it is equal to ./run.sh test
    or you can run ./run.sh dev for the dev database
-   ```
 
-3. Start the frontend service:
+   
+
+4. Start the frontend service:
    ```sh
    cd vulturis/frontend
    npm install  # or yarn install
    npm run dev  # or yarn dev
    ```
-4. Run with Docker (optional):
+5. Run with Docker (optional):
 
    ```sh
     create .env file in the root folder that will be like this
