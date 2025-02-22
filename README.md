@@ -105,8 +105,8 @@ Ensure you have the following installed:
    ```
 5. Run with Docker (optional):
 
-   ```sh
-    create .env file in the root folder that will be like this
+    create .env file in the root folder that will contain the following
+    ```sh
     DB_URL_DOCKER="postgres://root:12345678@postgres:5432/vulturis?sslmode=disable"
     PLATFORM="dev" // or test
     SECRET_KEY="SECRET"
@@ -121,7 +121,7 @@ Ensure you have the following installed:
    ```
    and just do 
    ```sh
-   docker compose up -d // Depending on the docker version you use , you might also need sudo priveledge
+   docker compose up -d // Depending on the docker version you use , you might also need sudo privilege
    ```
    Both frontend,backend and postgres will work but if you are on windows you might have problems with networks/firewall and frontend will not load.
 
