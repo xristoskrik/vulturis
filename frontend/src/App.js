@@ -8,7 +8,7 @@ import Home from './Pages/Home/Home.jsx';
 import Cart from './Pages/Cart/Cart.js';
 import Vlog from './Pages/Vlog/Vlog.jsx';
 
-
+import ProductPage from './Pages/Product/ProductPage';
 
 import { AuthProvider } from './AuthContext';
 import { CartProvider } from './CartContext';
@@ -27,7 +27,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/vlog" element={<Vlog />} />
-
+	      <Route path="/product/Eros_the_Bittersweet" element={<ProductPage/>} />
             </Routes>
           </main>
         </Router>
