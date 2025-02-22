@@ -64,7 +64,8 @@ Ensure you have the following installed:
    SECRET_KEY="SECRET"
 
    ```
-   to generate secret
+   To generate SECRET key execute in bash
+
 
    ```sh 
    openssl rand -hex 16 or 32 or 64
@@ -113,12 +114,14 @@ Ensure you have the following installed:
     POSTGRES_PASSWORD="12345678"
     POSTGRES_DB="vulturis"
 
-   to generate secret openssl rand -hex 16 or 32 or 64
    ```
-
+     To generate SECRET key execute in bash
+   ```sh
+   openssl rand -hex 16 or 32 or 64
+   ```
    and just do 
    ```sh
-   docker compose up -d (Be careful of docker's version the command changes)
+   docker compose up -d // Depending on the docker version you use , you might also need sudo priveledge
    ```
    Both frontend,backend and postgres will work but if you are on windows you might have problems with networks/firewall and frontend will not load.
 
