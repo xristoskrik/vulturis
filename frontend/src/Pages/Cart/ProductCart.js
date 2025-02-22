@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./cart.css";
 import { useCart } from "../../CartContext"; // Import Cart Context
+
 const ProductCart = (props) => {
-  const { id, name, price, image, slug } = props.data;
+  const { id, name, price, image } = props.data;
+  const slug = name.replace(/\s+/g, "_"); // Replace spaces with underscores
 
   // State to manage cart items
   const [cart, setCart] = useState([]);
   const { addToCart } = useCart();
+
   // Add to Cart Handler
   const addToCart2 = () => {
     const product = { id, name, price, image, slug };
@@ -34,3 +37,4 @@ const ProductCart = (props) => {
 };
 
 export default ProductCart;
+

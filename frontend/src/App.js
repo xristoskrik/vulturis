@@ -10,15 +10,13 @@ import Vlog from './Pages/Vlog/Vlog.jsx';
 
 
 
-
 import { AuthProvider } from './AuthContext';
 import { CartProvider } from './CartContext';
-
 
 function App() {
   return (
     <AuthProvider>
-      <CartProvider> 
+      <CartProvider>
         <Router>
           <Nav />
           <main>
@@ -28,7 +26,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
-	<Route path="/vlog" element={<Vlog/>} />
+              <Route path="/vlog" element={<Vlog />} />
+
             </Routes>
           </main>
         </Router>
@@ -36,7 +35,6 @@ function App() {
     </AuthProvider>
   );
 }
-
 
 export default App;
 

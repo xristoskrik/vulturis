@@ -1,0 +1,58 @@
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* Vlog container */
+.vlog-container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center content */
+}
+
+/* Vlog heading styling */
+.vlog-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Paragraph styling */
+.ponawpsyxika {
+  color: black; /* Make the paragraph text black */
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Vlog video wrapper */
+.vlog-video-wrapper iframe {
+  border-radius: 8px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .vlog-container {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .vlog-heading {
+    font-size: 2rem;
+  }
+
+  .ponawpsyxika {
+    font-size: 1rem;
+  }
+}
+
