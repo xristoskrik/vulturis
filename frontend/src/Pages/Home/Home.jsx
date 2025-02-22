@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom"; 
 import "./Home.css";
 import { useAuth } from "../../AuthContext";
-import { useProducts } from "./products"; // Ensure this path is correct
-import ProductCart from "../Cart/ProductCart"; // Import ProductCart component
-import { useEffect } from "react";
+import { useProducts } from "./products"; 
+
 const Home = () => {
-  const { handleToken, user, isLoggedIn } = useAuth();
+  const { handleToken } = useAuth();
 
   useEffect(() => {
     handleToken(); // Automatically fetch user data on component mount
@@ -21,32 +21,37 @@ const Home = () => {
   const randomProducts = [...products]
     .sort(() => 0.5 - Math.random())
     .slice(0, 4);
-  console.log(randomProducts);
 
   return (
     <div className="home-container">
       <h2 className="welcome-heading">Welcome to our book store!</h2>
       <p>Check out some of our books!</p>
       <div className="random-products-grid">
-        {randomProducts.map((product) => (
-          <div key={product.id} className="product-card">
-            <img
-              src={`http://localhost:8080/images/${product.image.String}`} // Assuming Image is an object with a `url` field
-              alt={product.name}
-              className="product-image"
-            />
-            <h3>{product.name}</h3> {/* Use 'Name' instead of 'name' */}
-            <p>{product.description}</p>{" "}
-            {/* Use 'Description' instead of 'description' */}
-            <p>
-              <strong>${product.price}</strong>{" "}
-              {/* Use 'Price' instead of 'price' */}
-            </p>
-          </div>
-        ))}
+        {randomProducts.map((product) => {
+          // Convert product name to a slug (replace spaces with underscores)
+          const productSlug = product.name.replace(/\s+/g, "_");
+
+          return (
+            <div key={product.id} className="product-card">
+              <Link to={`/product/${productSlug}`}>
+                <img
+                  src={`http://localhost:8080/images/${product.image.String}`}
+                  alt={product.name}
+                  className="product-image"
+                />
+                <h3>{product.name}</h3>
+              </Link>
+              <p>{product.description}</p>
+              <p>
+                <strong>${product.price}</strong>
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 export default Home;
+
