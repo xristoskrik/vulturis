@@ -72,7 +72,8 @@ const Register = () => {
         </div>
 
         <h2 className="cart-title">Your Cart</h2>
-        <div className="cart-items">
+        
+	<div className="cart-items">
           {cart.length > 0 ? (
             cart.map((product) => (
               <div className="cart-item" key={product.id}>
