@@ -7,11 +7,15 @@ import Contact from './Pages/Contact/Contact.js';
 import Home from './Pages/Home/Home.jsx';
 import Cart from './Pages/Cart/Cart.js';
 import Vlog from './Pages/Vlog/Vlog.jsx';
+import Profile from './Pages/Profile/Profile.js';
+
 
 import ProductPage from './Pages/Product/ProductPage';
 
 import { AuthProvider } from './AuthContext';
 import { CartProvider } from './CartContext';
+
+
 
 function App() {
   return (
@@ -28,6 +32,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/vlog" element={<Vlog />} />
 	      <Route path="/product/Eros_the_Bittersweet" element={<ProductPage/>} />
+              <Route path="/profile" element={<Profile/>} />
             </Routes>
           </main>
         </Router>

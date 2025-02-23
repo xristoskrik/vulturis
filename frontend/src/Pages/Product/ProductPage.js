@@ -24,7 +24,7 @@ const ProductPage = () => {
             This philosophical exploration of desire combines literature, psychology, and poetic analysis 
             to uncover the paradoxes of love.
           </p>
-          <p className="product-price">$19.99</p>
+          <p className="product-price">$12.00</p>
           
           <div className="product-actions">
             <button className="add-to-cart-button">Add to Cart</button>

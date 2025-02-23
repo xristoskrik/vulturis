@@ -26,7 +26,7 @@ const Nav = () => {
         ) : (
           <div className="top-bar-user">
             <p>
-              Welcome, {user} <button onClick={logout} className="logout-button">Logout</button>
+              Welcome, <Link to ="/profile"> {user} </Link> <button onClick={logout} className="logout-button">Logout</button>
             </p>
             <Link to="/checkout">
               <img src={cartIcon} alt="Cart" className="cart-icon" />
