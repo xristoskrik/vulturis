@@ -1,42 +1,42 @@
-/* Container for the entire Checkout and Cart section */
+
 .checkout-container {
   display: flex;
   justify-content: space-between;
   gap: 40px;
-  flex-wrap: nowrap; /* Prevent wrapping */
+  flex-wrap: nowrap; 
   padding: 30px;
   max-width: 100vw;
   width: 100%;
-  height: 80; /* Full viewport height */
-  background-color: #f4f8fb; /* Soft, light background */
+  height: 80; 
+  background-color: #f4f8fb; 
   overflow: hidden;
   box-sizing: border-box;
 }
 
-/* Checkout Form Styles */
+
 .checkout-form {
   flex: 1;
-  max-width: 48%; /* Adjust width for better responsiveness */
+  max-width: 48%; 
   background-color: #ffffff;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  border: 1px solid #e2e8f0; /* Lighter border color */
+  border: 1px solid #e2e8f0;
   height: 100%;
   overflow-y: auto;
 }
 
 .checkout-form h2 {
   font-size: 1.8rem;
-  color: #334e68; /* Darker header color */
+  color: #334e68; 
   margin-bottom: 15px;
   font-weight: 600;
 }
 
-/* Cart Container */
+
 .cart-container {
   flex: 1;
-  max-width: 100%; /* Ensure it takes up the full width */
+  max-width: 100%; 
   background-color: #ffffff;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -51,27 +51,24 @@
 
 .cart-title {
   font-size: 1.5rem;
-  color: #2b3d4f; /* Slightly deeper color for emphasis */
+  color: #2b3d4f; 
   font-weight: 600;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Cart Items */
 .cart-items {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 30px;
-  overflow-y: auto;
+  flex-direction: column; 
+  gap: 20px;
+  padding: 20px;
 }
-
 .cart-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  border-bottom: 1px solid #e2e8f0; /* Light border */
+  border-bottom: 1px solid #e2e8f0; 
   padding: 15px 0;
 }
 
@@ -79,7 +76,7 @@
   width: 60px;
   height: 60px;
   object-fit: contain;
-  border-radius: 8px; /* Slight rounding for image */
+  border-radius: 8px; 
 }
 
 .cart-item-details {
@@ -100,7 +97,7 @@
   color: #7a8c99;
 }
 
-/* Special headings (h3, h2, etc.) */
+
 .special-h3 {
   color: #2b3d4f;
   text-align: center;
@@ -114,9 +111,9 @@
   font-weight: bold;
 }
 
-/* Paragraph Styles */
+
 p {
-  color: #4a5568; /* Slightly lighter text for readability */
+  color: #4a5568; 
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 15px;
@@ -150,21 +147,21 @@ p {
   background-color: #f9fafb;
 }
 
-/* Button Styles */
+
 .button {
   padding: 12px 20px;
   font-size: 1.1rem;
   border-radius: 25px;
   border: none;
-  background-color: #38a169; /* Green background */
+  background-color: #38a169; 
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  background-color: #2f855a; /* Slightly darker green */
-  transform: translateY(-2px); /* Button hover effect */
+  background-color: #2f855a; 
+  transform: translateY(-2px); 
 }
 
 .quantity-controls button {
@@ -183,13 +180,13 @@ p {
 }
 
 .quantity-controls button:disabled {
-  background-color: #cbd5e0; /* Light gray for disabled */
+  background-color: #cbd5e0; 
   cursor: not-allowed;
 }
 
 /* Remove Item Button */
 .remove-item-button {
-  background-color: #e53e3e; /* Red background */
+  background-color: #e53e3e;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -200,10 +197,10 @@ p {
 }
 
 .remove-item-button:hover {
-  background-color: #c53030; /* Darker red */
+  background-color: #c53030; 
 }
 
-/* Total Cost Styling */
+
 .total-cost {
   display: flex;
   flex-direction: column;
@@ -214,7 +211,7 @@ p {
   padding: 20px 0;
   border-top: 2px solid #e2e8f0;
   margin-top: 25px;
-  background-color: #f0fdfa; /* Soft cyan background */
+  background-color: #f0fdfa; 
   border-radius: 12px;
 }
 
@@ -266,10 +263,14 @@ p {
 }
 
 .coupon button:hover {
-  background-color: #506d7f; /* Lighter dark blue */
+  background-color: #506d7f; 
 }
 
-/* Responsive Design */
+.cartp {
+color : #000000;
+}
+
+
 @media (max-width: 768px) {
   .checkout-container {
     flex-direction: column;

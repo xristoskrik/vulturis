@@ -18,12 +18,12 @@ const Register = () => {
   const [coupon, setCoupon] = useState("");
 
   useEffect(() => {
-    handleToken(); // Ensure token handling is done
+    handleToken(); 
   }, []);
 
   useEffect(() => {
     console.log(user, isLoggedIn);
-    setEmail(user || ""); // Avoid setting undefined values
+    setEmail(user || ""); 
 
     if (userData) {
       setName(userData.name || "");
@@ -40,7 +40,7 @@ const Register = () => {
   );
 
   const shippingCost = deliveryMethod === "store" ? 0 : 3.0;
-  const vat = totalCost * 0.21;
+  const vat = totalCost * 0.24;
   const finalTotal = totalCost + shippingCost + vat;
 
   const handleSubmit = (e) => {
@@ -60,7 +60,7 @@ const Register = () => {
   return (
     <div className="checkout-container">
       <div className="cart-container">
-        {/* Moved Coupon Code Section to the Start */}
+
         <div className="coupon">
           <input
             type="text"
@@ -84,7 +84,7 @@ const Register = () => {
                 />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
-                  <p>${(parseFloat(product.price) || 0).toFixed(2)}</p>{" "}
+                  <p class = "cartp">${(parseFloat(product.price) || 0).toFixed(2)}</p>{" "}
                   {/* Ensure price is a valid number */}
                   <div className="quantity-controls">
                     <button
