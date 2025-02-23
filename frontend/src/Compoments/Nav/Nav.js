@@ -13,6 +13,11 @@ const Nav = () => {
     <>
       {/* Top Bar */}
       <div className="top-bar">
+        
+        <div className="phone-number">
+          <span>210xxxxxxx</span>
+        </div>
+
         {!isLoggedIn ? (
           <ul>
             <li><Link to="/login">Login or Register</Link></li>
@@ -55,4 +60,3 @@ const Nav = () => {
 };
 
 export default Nav;
-
