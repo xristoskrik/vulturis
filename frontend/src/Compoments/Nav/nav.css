@@ -2,18 +2,24 @@
   background-color: #6f4f1f; 
   color: white;
   padding: 20px;
-  font-size: 1.10rem; /* Increased by 5% */
+  font-size: 1.10rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; /* Adjusted to allow space for the phone number */
   align-items: center;
   height: 40px;
   position: relative;
   z-index: 1;
 }
 
+.phone-number {
+  font-size: 1.10rem;
+  color: white;
+  font-weight: bold;
+}
+
 .top-bar p, .top-bar-user p {
   margin: 0;
-  font-size: 1.10rem; /* Increased by 5% */
+  font-size: 1.10rem;
   line-height: 40px;
 }
 
@@ -27,13 +33,13 @@
 }
 
 .top-bar li, .top-bar-user li {
-  font-size: 1.10rem; /* Increased by 5% */
+  font-size: 1.10rem;
 }
 
 .top-bar a, .top-bar-user a {
   color: white;
   text-decoration: none;
-  font-size: 1.10rem; /* Increased by 5% */
+  font-size: 1.10rem;
   transition: color 0.3s ease;
 }
 
@@ -42,7 +48,7 @@
 }
 
 .cart-icon {
-  width: 42px; /* Slightly increased */
+  width: 42px;
   height: 42px;
   margin-left: 15px;
   cursor: pointer;
@@ -60,7 +66,7 @@
   color: white;
   border: none;
   padding: 8px 15px;
-  font-size: 1.10rem; /* Increased by 5% */
+  font-size: 1.10rem;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -79,7 +85,6 @@
   box-shadow: 0 0 5px #e64a19;
 }
 
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -93,7 +98,7 @@
 }
 
 .navbar-title {
-  font-size: 1.575rem; /* Increased by 5% */
+  font-size: 1.575rem;
   font-weight: bold;
 }
 
@@ -111,7 +116,7 @@
 .navbar-links a {
   color: white;
   text-decoration: none;
-  font-size: 1.15rem; /* Increased by 5% */
+  font-size: 1.15rem;
   transition: color 0.3s ease;
 }
 
@@ -124,8 +129,7 @@
   border-radius: 2px;
 }
 
-/* Body */
-body {
+.body {
   background-color: #f8f9fa;
   color: white;
   margin: 0;
@@ -135,7 +139,7 @@ body {
 .cart-count {
   background-color: red;
   color: white;
-  font-size: 14.7px; /* Increased by 5% */
+  font-size: 14.7px;
   font-weight: bold;
   border-radius: 50%;
   padding: 5px 8px;
@@ -145,4 +149,3 @@ body {
   min-width: 20px;
   text-align: center;
 }
-
