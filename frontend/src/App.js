@@ -8,13 +8,13 @@ import Home from './Pages/Home/Home.jsx';
 import Cart from './Pages/Cart/Cart.js';
 import Vlog from './Pages/Vlog/Vlog.jsx';
 import Profile from './Pages/Profile/Profile.js';
+import ProductList from './Pages/Product/ProductList';//most recent addition by Amanda
 
 
 import ProductPage from './Pages/Product/ProductPage';
 
 import { AuthProvider } from './AuthContext';
 import { CartProvider } from './CartContext';
-
 
 
 function App() {
