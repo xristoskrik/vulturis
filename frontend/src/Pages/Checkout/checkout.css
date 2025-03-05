@@ -9,6 +9,7 @@
   background-color: #f4f8fb;
   box-sizing: border-box;
 }
+
 .checkout-form {
   flex: 2;
   max-width: 6000px;
@@ -258,32 +259,37 @@ p {
   color: #000000;
 }
 
-@media (max-width: 768px) {
-  .checkout-container {
-    flex-direction: column;
-    gap: 30px;
-    padding: 15px;
-    justify-content: flex-start;
-  }
-
-  .checkout-form {
-    flex: 1 1 100%;
-    padding: 20px;
-  }
-
-  .cart-container {
-    flex: 1 1 100%;
-  }
+/* Add new styles for the buttons container */
+.buttons-container {
+  display: flex;
+  justify-content: space-between; /* Spreads the buttons apart */
+  gap: 50px; /* Space between the buttons */
+  margin-top: 20px; /* Adds top margin for some spacing */
 }
 
+/* Style for the individual buttons */
+.back-to-cart, .submit-button {
+  background-color: #38a169;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-to-cart:hover, .submit-button:hover {
+  background-color: #2f855a;
+  transform: translateY(-2px);
+}
+
+/* If the buttons have specific styles */
 .back-to-cart {
   background-color: #e53e3e; /* Red background */
-  color: white; /* White text */
 }
 
 .back-to-cart:hover {
   background-color: #c53030; /* Darker red on hover */
-  transform: translateY(-2px); /* Add a hover effect */
 }
-
 

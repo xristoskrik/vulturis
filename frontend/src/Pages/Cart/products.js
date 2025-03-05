@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 export const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ export const useProducts = () => {
 };
 
 // If needed, you can also export the products array directly:
-export const products = [
-  // ... your static product data here
+export const products = [ //maybe should change that
+ 
+     
 ];

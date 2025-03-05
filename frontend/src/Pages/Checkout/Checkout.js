@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./checkout.css";
 import { useCart } from "../../CartContext";
 import { useAuth } from "../../AuthContext";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Register = () => {
   const { handleToken, user, isLoggedIn, userData } = useAuth();
@@ -17,6 +18,8 @@ const Register = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("home");
   const [coupon, setCoupon] = useState("");
   const [showCheckout, setShowCheckout] = useState(false); // New state to toggle between cart and checkout form
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     handleToken();
@@ -56,6 +59,12 @@ const Register = () => {
     };
     console.log("User Data:", user);
     console.log("User cart:", cart);
+
+    // Show the order received alert
+    alert("Your order has been received");
+
+    // Navigate to the home page after the alert
+    navigate("./Pages/Home/Home.jsx");
   };
 
   return (
@@ -250,13 +259,13 @@ const Register = () => {
                 </div>
               )}
               <div className="checkout-buttons">
-		        <button
-	  type="button"
-	  className="button back-to-cart" // Added unique class here
-	  onClick={() => setShowCheckout(false)} // Go back to the cart view
-	>
-	  Back to Cart
-	</button>
+                <button
+                  type="button"
+                  className="button back-to-cart" // Added unique class here
+                  onClick={() => setShowCheckout(false)} // Go back to the cart view
+                >
+                  Back to Cart
+                </button>
                 <button type="submit" className="button">
                   Submit
                 </button>
